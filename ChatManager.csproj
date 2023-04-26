@@ -154,7 +154,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Chat.json" />
+    <Content Include="App_Data\Friendships.json" />
     <Content Include="App_Data\iso-3166.txt" />
+    <Content Include="App_Data\TypeRelation.json" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
