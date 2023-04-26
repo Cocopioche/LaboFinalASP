@@ -147,6 +147,7 @@
     <Compile Include="Models\LoginCredential.cs" />
     <Compile Include="Models\OnLineUsers.cs" />
     <Compile Include="Models\PasswordView.cs" />
+    <Compile Include="Models\Relation.cs" />
     <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\ResetPasswordCommand.cs" />
     <Compile Include="Models\SelectListUtilities.cs" />
@@ -158,7 +159,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Friendships.json" />
     <Content Include="App_Data\iso-3166.txt" />
+    <Content Include="App_Data\Messages.json" />
+    <Content Include="App_Data\TypeRelations.json" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
