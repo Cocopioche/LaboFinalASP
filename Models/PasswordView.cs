@@ -20,7 +20,6 @@ namespace ChatManager.Models
         [Display(Name = "Confirmation")]
         [Compare("Password", ErrorMessage = "Le mot de passe et celui de confirmation ne correspondent pas.")]
         public string ConfirmPassword { get; set; }
-# test
 
     }
 }
