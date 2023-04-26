@@ -125,6 +125,7 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\CountryFlagController.cs" />
+    <Compile Include="Controllers\FriendshipsController.cs" />
     <Compile Include="Controllers\Gmail.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
@@ -269,6 +270,7 @@
     <Content Include="Views\Accounts\VerifyDone.cshtml" />
     <Content Include="Views\Accounts\VerifyError.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Friendships\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
