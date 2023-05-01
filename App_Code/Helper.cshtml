@@ -1,4 +1,5 @@
-﻿@helper AvatarProfilLink(ChatManager.Models.User user)
+﻿@using ChatManager.Models
+@helper AvatarProfilLink(ChatManager.Models.User user)
 {
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     var avatarUrl = Url.Content(user.GetAvatarURL());
@@ -375,4 +376,13 @@
             }
         }
     }
+}
+@helper UserRow(User user)
+{
+    <div class="friendContainer" style="font-size: 14px">
+        @AvatarUser(user)
+        @OnLineStatusIcon(true,true)
+        
+    </div>
+
 }
