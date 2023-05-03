@@ -6,9 +6,6 @@
 
 <h2>Friendships</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -20,17 +17,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.User.Email)
-            @Helper.Image(item.User.GetAvatarURL(), "smallPoster");
+            
+            @Helper.AvatarUser(item.User)
+              
             <div>
 
             </div>
 
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+           
         </td>
     </tr>
 }
