@@ -377,11 +377,11 @@
         }
     }
 }
-@helper UserRow(User user)
+@helper UserRow(User user,Relation relation,bool isConnected)
 {
     <div class="friendContainer" style="font-size: 14px">
         @AvatarUser(user)
-        @OnLineStatusIcon(true,true)
+        @OnLineStatusIcon(isConnected,relation.RelationName == "blocked")
         
     </div>
 

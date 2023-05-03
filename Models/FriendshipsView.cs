@@ -23,5 +23,8 @@ namespace ChatManager.Models
                 return relationList;
             }
         }
+        
+        [JsonIgnore]
+        public User User => DB.Users.Get(Id);
     }
 }
