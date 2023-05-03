@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.IdRelation)
+            @Html.DisplayNameFor(model => model.User.FirstName)
         </th>
         <th></th>
     </tr>
@@ -20,7 +20,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.IdRelation)
+            @Html.DisplayFor(modelItem => item.User.Email)
             @Helper.Image(item.User.GetAvatarURL(), "smallPoster");
             <div>
 

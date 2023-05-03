@@ -1,1 +1,8 @@
-[{"Id":1,"Email":"derose7021@gmail.com","VerificationCode":"c0aa9156-a2d0-4e75-a0f1-be080806dda6","UserId":9}]
+[
+    {
+        "Id": 1,
+        "Email": "derose7021@gmail.com",
+        "VerificationCode": "c0aa9156-a2d0-4e75-a0f1-be080806dda6",
+        "UserId": 9
+    }
+]
