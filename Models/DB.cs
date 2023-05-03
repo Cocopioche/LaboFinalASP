@@ -63,7 +63,7 @@ namespace ChatManager.Models
 
         #endregion
 
-        public void UpdateAllRelation()
+        public static void UpdateAllRelation()
         {
             List<User> users = Users.ToList();
             foreach (User user in users)
@@ -83,23 +83,26 @@ namespace ChatManager.Models
                 }
                 foreach (User otherUser in users)
                 {
-                    if (user != otherUser)
+                    if (user.Verified)
                     {
-                        bool isPresent = false;
-                        foreach (Relation relation in relations)
+                        if (user != otherUser && user.Verified)
                         {
-                            if (relation.OtherUserId == otherUser.Id)
+                            bool isPresent = false;
+                            foreach (Relation relation in relations)
                             {
-                                isPresent = true;
-                                break;
+                                if (relation.OtherUserId == otherUser.Id)
+                                {
+                                    isPresent = true;
+                                    break;
+                                }
                             }
-                        }
 
-                        if (!isPresent)
-                        {
-                            Relation relation = new Relation(otherUser.Id);
-                            relations.Add(relation);
-                            
+                            if (!isPresent)
+                            {
+                                Relation relation = new Relation(otherUser.Id);
+                                relations.Add(relation);
+
+                            }
                         }
                     }
                 }
