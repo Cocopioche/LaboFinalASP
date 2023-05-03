@@ -94,7 +94,7 @@ namespace ChatManager.Models
 
                     foreach (User otherUser in users)
                     {
-                        if (user != otherUser && user.Verified)
+                        if (user != otherUser && otherUser.Verified)
                         {
                             bool isPresent = false;
                             foreach (Relation relation in relations)
