@@ -6,25 +6,23 @@ namespace ChatManager.Models
     public class FriendshipsView
     {
         public int Id { get; set; } //Id of the user
-        public int IdRelation { get; set; }
-
-        [JsonIgnore]
-        public List<Relation> Relations
-        {
-            get
-            {
-                List<Relation> relationList = new List<Relation>();
-                var relations = DB.Relations.Get(IdRelation);
-                foreach (var relation in relationList)
-                {
-                    relationList.Add(relation);
-                }
-
-                return relationList;
-            }
-        }
         
+        public List<Relation> Relations { get; set; }
+        
+
         [JsonIgnore]
         public User User => DB.Users.Get(Id);
+
+        public FriendshipsView(int id, List<Relation> relations)
+        {
+            Id = id;
+            Relations = relations;
+        }
+
+        public FriendshipsView()
+        {
+            
+        }
+        
     }
 }
