@@ -14,13 +14,18 @@ namespace ChatManager.Models
     public class DB
     {
         #region singleton setup
+
         private static readonly DB instance = new DB();
+
         public static DB Instance
         {
             get { return instance; }
         }
+
         #endregion
+
         #region Repositories
+
         public static Repository<Gender> Genders { get; set; }
         public static Repository<UserType> UserTypes { get; set; }
         public static Repository<UnverifiedEmail> UnverifiedEmails { get; set; }
@@ -30,8 +35,11 @@ namespace ChatManager.Models
         public static Repository<TypeRelation> TypeRelations { get; set; }
         public static Repository<Message> Messages { get; set; }
         public static Repository<FriendshipsView> Friendships { get; set; }
+
         #endregion
+
         #region initialization
+
         public DB()
         {
             Genders = new Repository<Gender>();
@@ -68,22 +76,23 @@ namespace ChatManager.Models
             List<User> users = Users.ToList();
             foreach (User user in users)
             {
-                FriendshipsView friendshipsView = Friendships.Get(user.Id);
-                if (friendshipsView == null)
+                if (user.Verified)
                 {
-                    Friendships.Add(new FriendshipsView(user.Id, new List<Relation>()));
-                    friendshipsView = Friendships.Get(user.Id);
-                }
+                    FriendshipsView friendshipsView = Friendships.Get(user.Id);
+                    if (friendshipsView == null)
+                    {
+                        Friendships.Add(new FriendshipsView(user.Id, new List<Relation>()));
+                        friendshipsView = Friendships.Get(user.Id);
+                    }
 
-                List<Relation> relations = friendshipsView.Relations;
-                if (relations == null)
-                {
-                    relations = new List<Relation>();
-                    Friendships.Add(new FriendshipsView(user.Id, relations));
-                }
-                foreach (User otherUser in users)
-                {
-                    if (user.Verified)
+                    List<Relation> relations = friendshipsView.Relations;
+                    if (relations == null)
+                    {
+                        relations = new List<Relation>();
+                        Friendships.Add(new FriendshipsView(user.Id, relations));
+                    }
+
+                    foreach (User otherUser in users)
                     {
                         if (user != otherUser && user.Verified)
                         {
@@ -101,15 +110,13 @@ namespace ChatManager.Models
                             {
                                 Relation relation = new Relation(otherUser.Id);
                                 relations.Add(relation);
-
                             }
                         }
                     }
+
+                    Friendships.Update(new FriendshipsView(user.Id, relations));
                 }
-                Friendships.Update(new FriendshipsView(user.Id, relations));
             }
         }
-
-
     }
 }
