@@ -19,7 +19,7 @@
         <td>
             
           
-            @Helper.UserRow(item.User, new ChatManager.Models.Relation() , false)
+            @Helper.UserRow(item.User, item.GetRelation(item.User) , false)
               
             <div>
 
