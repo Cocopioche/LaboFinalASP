@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.UI.WebControls;
 using System.Xml.Linq;
 
 namespace ChatManager.Models
@@ -95,6 +97,20 @@ namespace ChatManager.Models
         public bool IsAdmin { get { return UserTypeId == 1 /* Admin */; } }
         [JsonIgnore]
         public bool CRUD_Access { get { return IsPowerUser; } }
+        [JsonIgnore]
+        public FriendshipsView Friendships {
+            get
+            {
+                try
+                {
+                    return DB.Friendships.ToList().Where(view => view.UserId == Id).ToList()[0];
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+
+            }}
         public string GetFullName(bool showGender = false)
         {
             if (showGender)

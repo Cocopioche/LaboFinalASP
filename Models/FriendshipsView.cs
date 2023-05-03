@@ -5,17 +5,18 @@ namespace ChatManager.Models
 {
     public class FriendshipsView
     {
-        public int Id { get; set; } //Id of the user
+        public int Id { get; set; }
+        public int UserId { get; set; }
         
         public List<Relation> Relations { get; set; }
         
 
         [JsonIgnore]
-        public User User => DB.Users.Get(Id);
+        public User User => DB.Users.Get(UserId);
 
         public FriendshipsView(int id, List<Relation> relations)
         {
-            Id = id;
+            UserId = id;
             Relations = relations;
         }
 

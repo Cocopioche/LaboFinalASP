@@ -73,49 +73,46 @@ namespace ChatManager.Models
 
         public static void UpdateAllRelation()
         {
-            List<User> users = Users.ToList();
+            List<User> users = Users.ToList().Where(user => user.Verified).ToList();
             foreach (User user in users)
             {
-                if (user.Verified)
+                FriendshipsView friendshipsView = user.Friendships;
+                if (friendshipsView == null)
                 {
-                    FriendshipsView friendshipsView = Friendships.Get(user.Id);
-                    if (friendshipsView == null)
-                    {
-                        Friendships.Add(new FriendshipsView(user.Id, new List<Relation>()));
-                        friendshipsView = Friendships.Get(user.Id);
-                    }
+                    Friendships.Add(new FriendshipsView(user.Id, new List<Relation>()));
+                    friendshipsView = user.Friendships;
+                }
 
-                    List<Relation> relations = friendshipsView.Relations;
-                    if (relations == null)
-                    {
-                        relations = new List<Relation>();
-                        Friendships.Add(new FriendshipsView(user.Id, relations));
-                    }
+                List<Relation> relations = friendshipsView.Relations;
+                if (relations == null)
+                {
+                    relations = new List<Relation>();
+                    Friendships.Add(new FriendshipsView(user.Id, relations));
+                }
 
-                    foreach (User otherUser in users)
+                foreach (User otherUser in users)
+                {
+                    if (user != otherUser && otherUser.Verified)
                     {
-                        if (user != otherUser && otherUser.Verified)
+                        bool isPresent = false;
+                        foreach (Relation relation in relations)
                         {
-                            bool isPresent = false;
-                            foreach (Relation relation in relations)
+                            if (relation.OtherUserId == otherUser.Id)
                             {
-                                if (relation.OtherUserId == otherUser.Id)
-                                {
-                                    isPresent = true;
-                                    break;
-                                }
-                            }
-
-                            if (!isPresent)
-                            {
-                                Relation relation = new Relation(otherUser.Id);
-                                relations.Add(relation);
+                                isPresent = true;
+                                break;
                             }
                         }
-                    }
 
-                    Friendships.Update(new FriendshipsView(user.Id, relations));
+                        if (!isPresent)
+                        {
+                            Relation relation = new Relation(otherUser.Id);
+                            relations.Add(relation);
+                        }
+                    }
                 }
+
+                Friendships.Update(new FriendshipsView(user.Id, relations));
             }
         }
     }
