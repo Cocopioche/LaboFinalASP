@@ -23,6 +23,15 @@ namespace ChatManager.Models
         {
             
         }
-        
+
+        public Relation GetRelation(User otherUser)
+        {
+            foreach (Relation relation in Relations)
+            {
+                if (relation.OtherUserId == otherUser.Id)
+                    return relation;
+            }
+            return null;
+        }
     }
 }

@@ -10,6 +10,8 @@ namespace ChatManager.Models
 
         [JsonIgnore]
         public string RelationName => DB.TypeRelations.Get(IdTypeRelation).Name;
+        [JsonIgnore]
+        public User OtherUser => DB.Users.Get(OtherUserId);
 
         public Relation(int otherUserId)
         {
