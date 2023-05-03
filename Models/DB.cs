@@ -30,7 +30,6 @@ namespace ChatManager.Models
         public static Repository<TypeRelation> TypeRelations { get; set; }
         public static Repository<Message> Messages { get; set; }
         public static Repository<FriendshipsView> Friendships { get; set; }
-        public static Repository<Relation> Relations { get; set; }
         #endregion
         #region initialization
         public DB()
@@ -44,9 +43,10 @@ namespace ChatManager.Models
             TypeRelations = new Repository<TypeRelation>();
             Messages = new Repository<Message>();
             Friendships = new Repository<FriendshipsView>();
-            Relations = new Repository<Relation>();
             InitRepositories(this);
+            UpdateAllRelation();
         }
+
         private static void InitRepositories(DB db)
         {
             string serverPath = HostingEnvironment.MapPath(@"~/App_Data/");
@@ -60,6 +60,52 @@ namespace ChatManager.Models
                 }
             }
         }
+
         #endregion
+
+        public void UpdateAllRelation()
+        {
+            List<User> users = Users.ToList();
+            foreach (User user in users)
+            {
+                FriendshipsView friendshipsView = Friendships.Get(user.Id);
+                if (friendshipsView == null)
+                {
+                    Friendships.Add(new FriendshipsView(user.Id, new List<Relation>()));
+                }
+
+                List<Relation> relations = friendshipsView.Relations;
+                if (relations == null)
+                {
+                    relations = new List<Relation>();
+                    Friendships.Add(new FriendshipsView(user.Id, relations));
+                }
+                foreach (User otherUser in users)
+                {
+                    if (user != otherUser)
+                    {
+                        bool isPresent = false;
+                        foreach (Relation relation in relations)
+                        {
+                            if (relation.OtherUserId == otherUser.Id)
+                            {
+                                isPresent = true;
+                                break;
+                            }
+                        }
+
+                        if (!isPresent)
+                        {
+                            Relation relation = new Relation(otherUser.Id);
+                            relations.Add(relation);
+                            
+                        }
+                    }
+                }
+                Friendships.Update(new FriendshipsView(user.Id, relations));
+            }
+        }
+
+
     }
 }
