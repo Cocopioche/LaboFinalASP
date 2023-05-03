@@ -17,5 +17,11 @@ namespace ChatManager.Models
             IdTypeRelation = 0;
         }
 
+        public Relation()
+        {
+            OtherUserId = 0;
+            IdTypeRelation = 0;
+        }
+
     }
 }
