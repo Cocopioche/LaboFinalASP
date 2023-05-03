@@ -8,14 +8,14 @@
 
 
 <div>
-  
+
     <div style="align-items: center; display: grid; grid-template-columns: 65px auto; ">
         <img src="~/friendships.png" style=" width: 56px;" />
         <h2>Gestion des amitiés</h2>
     </div>
     <hr />
     <div style="display: grid; grid-template-columns: 295px 35px; column-gap: 10px; margin-bottom: 10px;">
-        <input type="search" placeholder="recherche..." class="form-control"/>
+        <input type="search" placeholder="recherche..." class="form-control" />
         <span class="icon fa fa-search" style="margin-top: 5px;"></span>
     </div>
 
@@ -43,10 +43,17 @@
     <hr />
 
     <div class="main">
-        <div id="friendshipsListContainer" >
-            @Helper.UserRow(Model.User,Model.Relations[0],false)
+        <div id="friendshipsListContainer">
+            @Helper.UserRow(Model.User, Model.Relations[0], false)
         </div>
 
     </div>
 
 </div>
+
+@section Scripts {
+    <script defer>
+        PartialRefresh.setEndSessionAction("@Url.Action("End","Session")");
+        let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
+    </script>
+}
