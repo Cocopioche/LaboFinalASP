@@ -72,6 +72,7 @@ namespace ChatManager.Models
                 if (friendshipsView == null)
                 {
                     Friendships.Add(new FriendshipsView(user.Id, new List<Relation>()));
+                    friendshipsView = Friendships.Get(user.Id);
                 }
 
                 List<Relation> relations = friendshipsView.Relations;
