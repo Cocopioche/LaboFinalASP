@@ -1,7 +1,7 @@
 [
   {
     "Id": 0,
-    "Type": "Blocked"
+    "Type": "Neutral"
   },
   {
     "Id": 1,
@@ -21,6 +21,6 @@
   },
   {
     "Id": 5,
-    "Type": "AdminBlocked"
+    "Type": "Blocked"
   }
 ]
