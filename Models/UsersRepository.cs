@@ -174,6 +174,7 @@ namespace ChatManager.Models
                             DB.UnverifiedEmails.Delete(unverifiedEmail.Id);
                             OnlineUsers.SetHasChanged();
                             EndTransaction();
+                            DB.UpdateAllRelation();
                             return true;
                         }
                         catch (Exception ex)
