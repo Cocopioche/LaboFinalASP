@@ -382,7 +382,32 @@
     <div class="friendContainer" style="font-size: 14px">
         @AvatarUser(user)
         @OnLineStatusIcon(isConnected,relation.RelationName == "Blocked")
-        
+        @IconRelationButton(relation)
     </div>
 
+}
+
+@helper IconRelationButton(Relation relation)
+{
+    switch (relation.RelationName)
+    {
+        case "Neutral":
+            @IconCmd("Friendships","SendFriendRequest","da green fa-plus-circle","Cliquez ici pour ajouter un ami(e)");
+            break;
+        case "Friend":
+            @IconCmd("Friendships","SendFriendRequest","da green fa-plus-circle","Cliquez ici pour ajouter un ami(e)");
+            break;
+        case "FriendRequestReceive":
+            @IconCmd("Friendships","SendFriendRequest","da green fa-plus-circle","Cliquez ici pour ajouter un ami(e)")
+            break;
+        case "FriendRequestSend":
+            @IconCmd("Friendships","SendFriendRequest","da green fa-plus-circle","Cliquez ici pour ajouter un ami(e)")
+            break;
+        case "FriendRequestDecline":
+            @IconCmd("Friendships","SendFriendRequest","da green fa-plus-circle","Cliquez ici pour ajouter un ami(e)")
+            break;
+        case "Blocked":
+            @IconCmd("Friendships","SendFriendRequest","da green fa-plus-circle","Cliquez ici pour ajouter un ami(e)")
+            break;
+    }
 }

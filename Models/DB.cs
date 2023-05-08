@@ -111,7 +111,6 @@ namespace ChatManager.Models
                         }
                     }
                 }
-
                 Friendships.Update(new FriendshipsView(user.Id, relations));
             }
         }
