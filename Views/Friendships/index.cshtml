@@ -18,6 +18,7 @@
         <input type="search" placeholder="recherche..." class="form-control" />
         <span class="icon fa fa-search" style="margin-top: 5px;"></span>
     </div>
+    
 
     <div class="friendfilters">
 
@@ -39,21 +40,29 @@
         <input type="checkbox" class="filter" />
         <label class="fa red fa-ban" titre=" test"></label>
 
-    </div>
-    <hr />
 
+
+
+    </div>
     <div class="main">
         <div id="friendshipsListContainer">
-           
+
         </div>
+        <hr />
+
+        
+
 
     </div>
 
 </div>
 
-@section Scripts {
-    <script defer>
+    -@section Scripts {
+        <script defer>
         PartialRefresh.setEndSessionAction("@Url.Action("End","Session")");
-        let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
-    </script>
-}
+            let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
+
+
+
+        </script>
+    }
