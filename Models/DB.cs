@@ -71,12 +71,13 @@ namespace ChatManager.Models
 
         #endregion
 
+        //Utiliser pour creer les relations par defaut de nouveau user
         public static void UpdateAllRelation()
         {
             List<User> users = Users.ToList().Where(user => user.Verified).ToList();
             foreach (User user in users)
             {
-                FriendshipsView friendshipsView = user.Friendships;
+                var friendshipsView = user.Friendships;
                 if (friendshipsView == null)
                 {
                     Friendships.Add(new FriendshipsView(user.Id, new List<Relation>()));
