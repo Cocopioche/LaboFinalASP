@@ -22,26 +22,23 @@
 
     <div class="friendfilters">
 
-        <input type="checkbox" class="filter" />
+        <input type="checkbox" id="filter_NotFriend" class="filter"   />
         <label class="fa green fa-plus-circle" titre=" test"></label>
 
-        <input type="checkbox" class="filter" />
+        <input type="checkbox" id="filter_Request" class="filter" />
         <label class="fa green fa-check" titre=" test"></label>
 
-        <input type="checkbox" class="filter" />
+        <input type="checkbox" id="filter_Pending" class="filter" />
         <label class="fa green fa-clock-o" titre=" test"></label>
 
-        <input type="checkbox" class="filter" />
+        <input type="checkbox" id="filter_Friend" class="filter" />
         <label class="fa green fa-check-circle" titre=" test"></label>
 
-        <input type="checkbox" class="filter" />
+        <input type="checkbox" id="filter_Refused" class="filter" />
         <label class="fa red fa-times-circle" titre=" test"></label>
 
-        <input type="checkbox" class="filter" />
+        <input type="checkbox" id="filter_Blocked" class="filter" />
         <label class="fa red fa-ban" titre=" test"></label>
-
-
-
 
     </div>
     <div class="main">
@@ -59,10 +56,15 @@
 
     -@section Scripts {
         <script defer>
-        PartialRefresh.setEndSessionAction("@Url.Action("End","Session")");
+             PartialRefresh.setEndSessionAction("@Url.Action("End","Session")");
             let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
 
-
+            if ($("#filter_NotFriend").is(':checked')) { console.log("test") }
+            if ($("#filter_Request").is(':checked')) { console.log("test") }
+            if ($("#filter_Pending").is(':checked')) { console.log("test") }
+            if ($("#filter_Friend").is(':checked')) { console.log("test") }
+            if ($("#filter_Refused").is(':checked')) { console.log("test") }
+            if ($("#filter_Blocked").is(':checked')) { console.log("test") }
 
         </script>
     }
