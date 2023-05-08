@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Web.Mvc;
 using Newtonsoft.Json;
 
 namespace ChatManager.Models
