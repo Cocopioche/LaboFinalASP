@@ -23,9 +23,19 @@ namespace ChatManager.Controllers
         {
             if (forceRefresh || DB.Friendships.HasChanged)
             {
-                return PartialView(DB.Friendships.ToList().OrderBy(c => c.User.LastName));
+                //Send A list of all User tat is not the user in the sessions and is verified
+                var listUser = DB.Users.ToList().Where(u => u.Id == (int)Session["currentLoginId"]).ToList();
+                listUser.AddRange(DB.Users.ToList().Where(x => x.Id != (int)Session["currentLoginId"] && x.Verified).ToList());
+                return PartialView(listUser);
             }
             return null;
+        }
+
+        public ActionResult SendFriendDemand(User otherUser)
+        {
+            int id = (int)Session["currentLoginId"];
+            DB.Friendships.Add(new FriendshipsView(id, otherUser.Id));
+            return RedirectToAction("Index");
         }
     }
 }

@@ -51,7 +51,6 @@ namespace ChatManager.Models
                 user.SaveAvatar();
                 OnlineUsers.SetHasChanged();
                 user.Id = base.Add(user);
-                DB.UpdateAllRelation();
                 return user;
             }
             catch (Exception ex)
@@ -67,7 +66,6 @@ namespace ChatManager.Models
             {
                 user.SaveAvatar();
                 OnlineUsers.SetHasChanged();
-                DB.UpdateAllRelation();
                 return base.Update(user);
             }
             catch (Exception ex)
@@ -119,7 +117,6 @@ namespace ChatManager.Models
                     OnlineUsers.SetHasChanged();
 
                     EndTransaction();
-                    DB.UpdateAllRelation();
                     return true;
                 }
 
@@ -174,7 +171,6 @@ namespace ChatManager.Models
                             DB.UnverifiedEmails.Delete(unverifiedEmail.Id);
                             OnlineUsers.SetHasChanged();
                             EndTransaction();
-                            DB.UpdateAllRelation();
                             return true;
                         }
                         catch (Exception ex)

@@ -98,12 +98,15 @@ namespace ChatManager.Models
         [JsonIgnore]
         public bool CRUD_Access { get { return IsPowerUser; } }
         [JsonIgnore]
-        public FriendshipsView Friendships {
+        public List<FriendshipsView> Friendships {
             get
             {
                 try
                 {
-                    return DB.Friendships.ToList().Where(view => view.UserId == Id).ToList()[0];
+                    List<FriendshipsView> friendshipsList = new List<FriendshipsView>();
+                    friendshipsList.AddRange( DB.Friendships.ToList().Where(f => f.UserId1 == Id).ToList());
+                    friendshipsList.AddRange( DB.Friendships.ToList().Where(f => f.UserId2 == Id).ToList());
+                    return friendshipsList;
                 }
                 catch (Exception e)
                 {

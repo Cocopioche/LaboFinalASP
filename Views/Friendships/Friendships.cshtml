@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ChatManager.Models.FriendshipsView>
+﻿@model IEnumerable<ChatManager.Models.User>
 
 @{
     ViewBag.Title = "Friendships";
@@ -9,7 +9,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayNameFor(model => model.FirstName)
         </th>
         <th></th>
     </tr>

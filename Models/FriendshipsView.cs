@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 
 namespace ChatManager.Models
@@ -6,35 +7,31 @@ namespace ChatManager.Models
     public class FriendshipsView
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
-        
-        public List<Relation> Relations { get; set; }
+        public int UserId1 { get; set; }
+        public int UserId2 { get; set; }
+        public bool Accepted { get; set; }
+        public bool Decline { get; set; }
         
 
         [JsonIgnore]
-        public User User => DB.Users.Get(UserId);
+        public User User1 => DB.Users.Get(UserId1);
+        [JsonIgnore]
+        public User User2 => DB.Users.Get(UserId2);
 
-        public FriendshipsView(int id, List<Relation> relations)
+        public FriendshipsView(int idUser1,int idUser2)
         {
-            UserId = id;
-            Relations = relations;
+            UserId1 = idUser1;
+            UserId2 = idUser2;
+            Accepted = false;
+            Decline = false;
         }
 
         public FriendshipsView()
         {
             
         }
-
-        public Relation GetRelation(User otherUser)
-        {
-            if (Relations != null){
-                foreach (Relation relation in Relations)
-                {
-                    if (relation.OtherUserId == otherUser.Id)
-                        return relation;
-                }
-            }
-            return null;
-        }
+        
+        
+        
     }
 }
