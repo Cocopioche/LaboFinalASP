@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace ChatManager.Models
@@ -7,9 +8,10 @@ namespace ChatManager.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        
+
+
         public List<Relation> Relations { get; set; }
-        
+        public string Recherche { get; set; }        
 
         [JsonIgnore]
         public User User => DB.Users.Get(UserId);
