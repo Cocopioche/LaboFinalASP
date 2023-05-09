@@ -19,11 +19,14 @@ namespace ChatManager.Models
             CreationDate = DateTime.Now;
             AcceptNotification = true;
         }
+
         public User Clone()
         {
             return JsonConvert.DeserializeObject<User>(JsonConvert.SerializeObject(this));
         }
+
         #region Data Members
+
         public int Id { get; set; }
         public int UserTypeId { get; set; }
         public bool Verified { get; set; }
@@ -35,11 +38,11 @@ namespace ChatManager.Models
         [Display(Name = "Nom"), Required(ErrorMessage = "Obligatoire")]
         public string LastName { get; set; }
 
-        [Display(Name = "Genre")]
-        public int GenderId { get; set; }
+        [Display(Name = "Genre")] public int GenderId { get; set; }
 
         [Display(Name = "Courriel"), EmailAddress(ErrorMessage = "Invalide"), Required(ErrorMessage = "Obligatoire")]
-        [System.Web.Mvc.Remote("EmailAvailable", "Accounts", HttpMethod = "POST", AdditionalFields = "Id", ErrorMessage = "Ce courriel n'est pas disponible.")]
+        [System.Web.Mvc.Remote("EmailAvailable", "Accounts", HttpMethod = "POST", AdditionalFields = "Id",
+            ErrorMessage = "Ce courriel n'est pas disponible.")]
         public string Email { get; set; }
 
         public string Avatar { get; set; }
@@ -63,57 +66,87 @@ namespace ChatManager.Models
         [Display(Name = "Date de création")]
         [DataType(DataType.Date)]
         public DateTime CreationDate { get; set; }
+
         #endregion
+
         #region Avatar handling
+
         [JsonIgnore]
         [Display(Name = "Avatar")]
         public string AvatarImageData { get; set; }
-        [JsonIgnore]
-        private static ImageFileKeyReference AvatarReference =
+
+        [JsonIgnore] private static ImageFileKeyReference AvatarReference =
             new ImageFileKeyReference(@"/Images_Data/User_Avatars/", @"no_avatar.png", false);
+
         public String GetAvatarURL()
         {
             return AvatarReference.GetURL(Avatar, false);
         }
+
         public void SaveAvatar()
         {
             Avatar = AvatarReference.Save(AvatarImageData, Avatar);
         }
+
         public void RemoveAvatar()
         {
             AvatarReference.Remove(Avatar);
         }
+
         #endregion
+
         #region View members
+
+        [JsonIgnore] public bool AcceptNotification { get; set; }
+
         [JsonIgnore]
-        public bool AcceptNotification { get; set; }
+        public Gender Gender
+        {
+            get { return DB.Genders.Get(GenderId); }
+        }
+
         [JsonIgnore]
-        public Gender Gender { get { return DB.Genders.Get(GenderId); } }
+        public UserType UserType
+        {
+            get { return DB.UserTypes.Get(UserTypeId); }
+        }
+
         [JsonIgnore]
-        public UserType UserType { get { return DB.UserTypes.Get(UserTypeId); } }
+        public bool IsPowerUser
+        {
+            get { return UserTypeId <= 2 /* Admin = 1 , PowerUser = 2 */; }
+        }
+
         [JsonIgnore]
-        public bool IsPowerUser { get { return UserTypeId <= 2 /* Admin = 1 , PowerUser = 2 */; } }
+        public bool IsAdmin
+        {
+            get { return UserTypeId == 1 /* Admin */; }
+        }
+
         [JsonIgnore]
-        public bool IsAdmin { get { return UserTypeId == 1 /* Admin */; } }
+        public bool CRUD_Access
+        {
+            get { return IsPowerUser; }
+        }
+
         [JsonIgnore]
-        public bool CRUD_Access { get { return IsPowerUser; } }
-        [JsonIgnore]
-        public List<FriendshipsView> Friendships {
+        public List<FriendshipsView> Friendships
+        {
             get
             {
                 try
                 {
                     List<FriendshipsView> friendshipsList = new List<FriendshipsView>();
-                    friendshipsList.AddRange( DB.Friendships.ToList().Where(f => f.UserId1 == Id).ToList());
-                    friendshipsList.AddRange( DB.Friendships.ToList().Where(f => f.UserId2 == Id).ToList());
+                    friendshipsList.AddRange(DB.Friendships.ToList().Where(f => f.IsUserIn(this)).ToList());
                     return friendshipsList;
                 }
                 catch (Exception e)
                 {
                     return null;
                 }
+            }
+        }
 
-            }}
         public string GetFullName(bool showGender = false)
         {
             if (showGender)
@@ -121,8 +154,47 @@ namespace ChatManager.Models
                 if (Gender.Name != "Neutre")
                     return Gender.Name + " " + LastName;
             }
+
             return FirstName + " " + LastName;
         }
+
+        public FriendshipStatus GetStatus(User otherUser)
+        {
+            if (otherUser.Blocked)
+            {
+                return FriendshipStatus.Blocked;
+            }
+            else if (!FriendshipsView.DoesFriendshipExist(this, otherUser))
+            {
+                return FriendshipStatus.Neutral;
+            }
+
+            FriendshipsView friendships = FriendshipsView.GetMutualFriendship(this, otherUser);
+            if (!friendships.Decline && !friendships.Accepted && friendships.Receiver == this)
+            {
+                return FriendshipStatus.RequestReceive;
+            }
+            else if (!friendships.Decline && !friendships.Accepted && friendships.Sender == this)
+            {
+                return FriendshipStatus.RequestSend;
+            }
+            else if (friendships.Accepted)
+            {
+                return FriendshipStatus.Friend;
+            }
+            else if (friendships.Decline && this == friendships.Sender)
+            {
+                return FriendshipStatus.OtherDecline;
+            }
+            else if (friendships.Decline && this == friendships.Receiver)
+            {
+                return FriendshipStatus.IDecline;
+            }
+  
+            return FriendshipStatus.Neutral;
+
+        }
+
         #endregion
     }
 }

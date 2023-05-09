@@ -1,4 +1,5 @@
-﻿@model ChatManager.Models.FriendshipsView
+﻿@using ChatManager.Models
+@model ChatManager.Models.FriendshipsView
 
 @{
     ViewBag.Title = "Index";
@@ -22,22 +23,22 @@
 
     <div class="friendfilters">
 
-        <input type="checkbox" id="filter_NotFriend" class="filter"   />
+        <input type="checkbox" id="filter_NotFriend" class="filter" value="@FriendshipStatus.Neutral.ToString()" checked="checked"/>
         <label class="fa green fa-plus-circle" titre=" test"></label>
 
-        <input type="checkbox" id="filter_Request" class="filter" />
+        <input type="checkbox" id="filter_Request" class="filter" value="@FriendshipStatus.RequestReceive.ToString()" checked="checked"/>
         <label class="fa green fa-check" titre=" test"></label>
 
-        <input type="checkbox" id="filter_Pending" class="filter" />
+        <input type="checkbox" id="filter_Pending" class="filter" value="@FriendshipStatus.RequestSend.ToString()" checked="checked"/>
         <label class="fa green fa-clock-o" titre=" test"></label>
 
-        <input type="checkbox" id="filter_Friend" class="filter" />
+        <input type="checkbox" id="filter_Friend" class="filter" value="@FriendshipStatus.Friend.ToString()" checked="checked"/>
         <label class="fa green fa-check-circle" titre=" test"></label>
 
-        <input type="checkbox" id="filter_Refused" class="filter" />
+        <input type="checkbox" id="filter_Refused" class="filter" value="@FriendshipStatus.IDecline.ToString()" checked="checked"/>
         <label class="fa red fa-times-circle" titre=" test"></label>
 
-        <input type="checkbox" id="filter_Blocked" class="filter" />
+        <input type="checkbox" id="filter_Blocked" class="filter" value="@FriendshipStatus.Blocked.ToString()" checked="checked"/>
         <label class="fa red fa-ban" titre=" test"></label>
 
     </div>
@@ -54,17 +55,27 @@
 
 </div>
 
-    -@section Scripts {
+    @section Scripts {
         <script defer>
-             PartialRefresh.setEndSessionAction("@Url.Action("End","Session")");
+             PartialRefresh.setEndSessionAction("@Url.Action("End", "Session")");
             let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
 
-            if ($("#filter_NotFriend").is(':checked')) { console.log("test") }
-            if ($("#filter_Request").is(':checked')) { console.log("test") }
-            if ($("#filter_Pending").is(':checked')) { console.log("test") }
-            if ($("#filter_Friend").is(':checked')) { console.log("test") }
-            if ($("#filter_Refused").is(':checked')) { console.log("test") }
-            if ($("#filter_Blocked").is(':checked')) { console.log("test") }
-
+            
+            $(".filter").click(function() {
+                var filterValue = $(this).val();
+            
+                if ($(this).is(":checked")) {
+                    $("." + filterValue).show();
+                    if (filterValue === @FriendshipStatus.IDecline.ToString()){
+                        $("." + @FriendshipStatus.OtherDecline.ToString()).show();
+                    }
+                } else {
+                    $("." + filterValue).hide();
+                    if (filterValue === @FriendshipStatus.IDecline.ToString()){
+                        $("." + @FriendshipStatus.OtherDecline.ToString()).hide();
+                    }
+                }
+            });
+            
         </script>
     }

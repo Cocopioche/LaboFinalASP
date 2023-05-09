@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ChatManager.Models.User>
+﻿@using ChatManager.Models
+@model List<ChatManager.Models.User>
 
 @{
     ViewBag.Title = "Friendships";
@@ -6,24 +7,24 @@
 
 
 <table class="table">
-    
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            
-          
-            @Helper.UserRow(item.User, item.GetRelation(item.User) , false)
-              
-            <div>
 
-            </div>
-
-        </td>
-        <td>
-           
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        //First User is the one scrolling
+        if (item != Model[0])
+        {
+            FriendshipStatus status = Model[0].GetStatus(item);
+            <tr class="@status.ToString()">
+                <td>
+                    @Helper.UserRow(Model[0], item)
+                    <div>
+                    </div>
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    }
 
 </table>

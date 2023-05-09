@@ -134,6 +134,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ChatView.cs" />
+    <Compile Include="Models\FriendshipsRepository.cs" />
     <Compile Include="Models\FriendshipsView.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Notification.cs" />

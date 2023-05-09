@@ -33,7 +33,7 @@ namespace ChatManager.Models
         public static Repository<Login> Logins { get; set; }
         public static UsersRepository Users { get; set; }
         public static Repository<Message> Messages { get; set; }
-        public static Repository<FriendshipsView> Friendships { get; set; }
+        public static FriendshipsRepository Friendships { get; set; }
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace ChatManager.Models
             Logins = new Repository<Login>();
             Users = new UsersRepository();
             Messages = new Repository<Message>();
-            Friendships = new Repository<FriendshipsView>();
+            Friendships = new FriendshipsRepository();
             InitRepositories(this);
         }
 
@@ -67,6 +67,7 @@ namespace ChatManager.Models
         }
 
         #endregion
-        
+
+
     }
 }
