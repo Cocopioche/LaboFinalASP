@@ -1,7 +1,26 @@
+using System.Collections.Generic;
+
 namespace ChatManager.Models
 {
     public class FriendshipsRepository : Repository<FriendshipsView>
     {
+        public List<User> GetFriends(User user)
+        {
+            List<User> friends = new List<User>();
+            foreach (FriendshipsView friendship in DB.Friendships.ToList())
+            {
+                if (friendship.SenderId == user.Id)
+                {
+                    friends.Add(DB.Users.Get(friendship.ReceiverId));
+                }
+                else if (friendship.ReceiverId == user.Id)
+                {
+                    friends.Add(DB.Users.Get(friendship.SenderId));
+                }
+            }
+            return friends;
+        }
+
         public void SendRequest(User senderUser,User receiverUser)
         {
             if (!FriendshipsView.DoesFriendshipExist(senderUser, receiverUser))
