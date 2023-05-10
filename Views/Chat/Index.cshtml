@@ -1,8 +1,8 @@
-﻿@model ChatManager.Models.ChatView
+﻿@using ChatManager.Models
+@model List<ChatManager.Models.User>
 
-@{
-    ViewBag.Title = "Index";
-}
+
+
 
 <div style="align-items: center; display: grid; grid-template-columns: 65px auto; ">
     <img src="~/favicon.png" style=" width: 56px;" />
@@ -13,20 +13,37 @@
 <div class="main">
 
     <div style=" display: grid; grid-template-columns: 60px auto; column-gap: 10px;">
-     
-        <div class="friendsListContainer">
+
+        <div class="friendsListContainer" id="friendshipsListContainer" titre="Cliquez sur un de vos amis pour clavarder avec lui ...">
+           
 
         </div>
-      
+
         <div>
             <div class="messagesPanel">
 
             </div>
             <div class="sendMessageLayout">
-
+                <input id="message" class="form-control" style="width: 100% !important; max-width: 1000px !important;" placeholder="Tapez votre message ici ..." />
+                <span id="send" class="icon fa fa-paper-plane" titre="Envoyer" data-placement="bottom"></span>
             </div>
 
         </div>
 
     </div>
 </div>
+@section Scripts {
+    <script defer>
+
+       
+
+
+        let friendsPannelUpdater = new PartialRefresh("/Chat/GetFriendList", "friendshipsListContainer", 5);
+        //let messagesPanelUptater = new PartialRefresh("/Chat/GetMessages", "messagesPanel", 5, UpdateMessagesCallback);
+
+
+
+
+
+    </script>
+}

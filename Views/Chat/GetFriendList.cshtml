@@ -1,0 +1,22 @@
+﻿@using ChatManager.Models
+@model List<ChatManager.Models.User>
+@{
+    ViewBag.Title = "GetFriendList";
+}
+
+
+<table class="table">
+
+
+    @foreach (var item in Model)
+    {
+        //First User is the one scrolling
+       
+
+            @Helper.UserRowChat(Model[0], item)
+
+
+        
+    }
+
+</table>
