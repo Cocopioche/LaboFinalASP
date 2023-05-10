@@ -94,3 +94,15 @@ function ajaxActionCall(actionLink, callback = null) {
         }
     });
 }
+
+function ajaxActionCallParams(actionLink,callback = null) {
+    // Ajax Action Call to actionLink
+    $.ajax({
+        url: actionLink,
+        method: 'GET',
+        data: para,
+        success: () => {
+            if (callback != null) callback();
+        }
+    });
+}

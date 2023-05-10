@@ -16,8 +16,8 @@
     </div>
     <hr />
     <div style="display: grid; grid-template-columns: 295px 35px; column-gap: 10px; margin-bottom: 10px;">
-        <input type="search" placeholder="recherche..." class="form-control" />
-        <span class="icon fa fa-search" style="margin-top: 5px;"></span>
+        <input type="search" placeholder="recherche..." class="form-control" id="searchInput" />
+        <span class="icon fa fa-search" id="searchButton" style="margin-top: 5px;"></span>
     </div>
     
 
@@ -57,9 +57,9 @@
 
     @section Scripts {
         <script defer>
-             PartialRefresh.setEndSessionAction("@Url.Action("End", "Session")");
+            //PartialRefresh.setEndSessionAction("@Url.Action("End", "Session")");
             let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
-
+           
             
             $(".filter").click(function() {
                 var filterValue = $(this).val();

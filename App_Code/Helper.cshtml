@@ -180,14 +180,28 @@
 @helper IconConfirmCmdWithParam(string controller, string Action, object extraparam, string icon_class, string TooltipMessage, string ToolTipPlacement = "bottom")
 {
     //// http://bootboxjs.com/documentation.html#bb-confirm
+    /// To do window.location is considered has a new connexion and cause authentification problems
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
-    <div onclick='bootbox.confirm("@TooltipMessage", function(result){ if (result) window.location = "@(Url.Action(Action, controller, extraparam))"; })'>
+    <div onclick='bootbox.confirm("@TooltipMessage", function(result) { if (result) ajaxActionCall("@Url.Action(Action, controller, extraparam)") })'>
         <span class="icon fa @icon_class"
               title="@TooltipMessage"
               data-placement="@ToolTipPlacement">
         </span>
     </div>
 }
+
+@helper IconConfirmAjaxCmdWithParam(string controller, string action, object extraParam, string icon_class, string tooltipMessage, string tooltipPlacement = "bottom")
+{
+    //// http://bootboxjs.com/documentation.html#bb-confirm
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <div onclick='bootbox.confirm("@tooltipMessage", function(result) {if (result) ajaxActionCall("@Url.Action(action,controller,extraParam)") })'>
+        <span class="icon fa @icon_class"
+              title="@tooltipMessage"
+              data-placement="@tooltipPlacement">
+        </span>
+    </div>
+}
+
 
 @helper ListToRadioButtonGroup(string name, System.Web.Mvc.SelectList options, int selectedValue)
 {
@@ -427,39 +441,39 @@
     </div>
 }
 
-//TODO
+
 
 @helper IconRelationButton(User mainUser, User otherUser)
 {
     switch (mainUser.GetStatus(otherUser))
     {
         case FriendshipStatus.Neutral:
-            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser,"da green fa-plus-circle","Cliquez ici pour ajouter un ami(e)");
+            @IconConfirmAjaxCmdWithParam("Friendships", "SendFriendRequest", otherUser,"da green fa-plus-circle friendButton","Cliquez ici pour ajouter un ami(e)");
             break;
         case FriendshipStatus.RequestReceive:
-            @IconConfirmCmdWithParam("Friendships", "AcceptFriendRequest", otherUser, "da green fa-check-circle", "Cliquez ici pour accepter la demande d'ami(e)")
-            @IconConfirmCmdWithParam("Friendships", "DeclineFriendRequest", otherUser, "da red fa-times", "Cliquez ici pour refuser la demande d'ami(e)")
+            @IconConfirmCmdWithParam("Friendships", "AcceptFriendRequest", otherUser, "da green fa-check-circle friendButton", "Cliquez ici pour accepter la demande d'ami(e)")
+            @IconConfirmCmdWithParam("Friendships", "DeclineFriendRequest", otherUser, "da red fa-times friendButton", "Cliquez ici pour refuser la demande d'ami(e)")
             break;
         case FriendshipStatus.OtherDecline:
             @Icon("Friendships", "da red fa-times-circle", "Demande refuser")
             break;
         case FriendshipStatus.IDecline:
             @Icon("Friendships", "da red fa-times-circle", "Demande refuser")
-            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser, "da green fa-plus-circle", "Cliquez ici pour ajouter un ami(e)")
+            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser, "da green fa-plus-circle friendButton", "Cliquez ici pour ajouter un ami(e)")
             break;
         case FriendshipStatus.RequestSend:
             @Icon("Friendships", "da green fa-clock-o", "Demande en attente")
-            @IconConfirmCmdWithParam("Friendships", "RemoveRequest", otherUser, "da red fa-times", "Cliquez ici pour enlever la demande")
+            @IconConfirmCmdWithParam("Friendships", "RemoveRequest", otherUser, "da red fa-times friendButton", "Cliquez ici pour enlever la demande")
             break;
         case FriendshipStatus.Friend:
             @Icon("Friendships", "da green fa-check-circle", "Vous êtes ami(e)s")
-            @IconConfirmCmdWithParam("Friendships", "RemoveFriend", otherUser, "da red fa-times", "Cliquez ici pour ne plus être ami")
+            @IconConfirmCmdWithParam("Friendships", "RemoveFriend", otherUser, "da red fa-times friendButton", "Cliquez ici pour ne plus être ami")
             break;
         case FriendshipStatus.Blocked:
             @Icon("Friendships", "da red fa-ban", "Cet usager est bloqué(e) par les administrateurs")
             break;
         default:
-            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser, "da green fa-plus-circle", "Cliquez ici pour ajouter un ami(e)")
+            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser, "da green fa-plus-circle friendButton", "Cliquez ici pour ajouter un ami(e)")
             break;
     }
 }

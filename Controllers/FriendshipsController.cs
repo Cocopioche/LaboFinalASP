@@ -19,31 +19,43 @@ namespace ChatManager.Controllers
             FriendshipsView model = DB.Friendships.Get(id);
             return View(model);
         }
-        [OnlineUsers.UserAccess(false/* do not reset timeout*/)]
-        public ActionResult Friendships(bool forceRefresh = false)
+
+        [OnlineUsers.UserAccess(false /* do not reset timeout*/)]
+        public ActionResult Friendships(bool forceRefresh = false, string search = "")
         {
             if (forceRefresh || DB.Friendships.HasChanged)
             {
-                //Send A list of all User tat is not the user in the sessions and is verified
                 List<User> listUser = new List<User>();
-                listUser.AddRange(DB.Users.ToList().Where(u => u.Id == OnlineUsers.GetSessionUser().Id).ToList());
-                listUser.AddRange(DB.Users.ToList().Where(x => x.Id != OnlineUsers.GetSessionUser().Id && x.Verified).ToList());
+                listUser.Add(OnlineUsers.GetSessionUser());
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    listUser.AddRange(DB.Users.ToList().Where(x => x.Id != OnlineUsers.GetSessionUser().Id &&
+                                                                   x.Verified &&
+                                                                   (x.FirstName.ToLower().Contains(search.ToLower()) ||
+                                                                    x.LastName.ToLower().Contains(search.ToLower()))).ToList());
+                }
+                else
+                {
+                    listUser.AddRange(DB.Users.ToList().Where(x => x.Id != OnlineUsers.GetSessionUser().Id &&
+                                                                   x.Verified).ToList());
+                }
 
                 return PartialView(listUser);
             }
+
             return null;
         }
 
 
-        
         public ActionResult SendFriendRequest(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
-            DB.Friendships.SendRequest(mainUser,otherUser);
-            return RedirectToAction("Index");
+            DB.Friendships.SendRequest(mainUser, otherUser);
+            return RedirectToAction("Friendships");
         }
 
-        
+
         public ActionResult AcceptFriendRequest(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
@@ -51,7 +63,7 @@ namespace ChatManager.Controllers
             return RedirectToAction("Index");
         }
 
-        
+
         public ActionResult DeclineFriendRequest(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
@@ -59,7 +71,7 @@ namespace ChatManager.Controllers
             return RedirectToAction("Index");
         }
 
-        
+
         public ActionResult RemoveFriend(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
@@ -67,7 +79,7 @@ namespace ChatManager.Controllers
             return RedirectToAction("Index");
         }
 
-        
+
         public ActionResult RemoveRequest(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
