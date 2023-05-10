@@ -1,8 +1,6 @@
 ﻿@model ChatManager.Models.ChatView
 
-@{
-    ViewBag.Title = "Index";
-}
+
 
 <div style="align-items: center; display: grid; grid-template-columns: 65px auto; ">
     <img src="~/favicon.png" style=" width: 56px;" />
@@ -23,7 +21,8 @@
 
             </div>
             <div class="sendMessageLayout">
-
+                <input id="message" class="form-control" style="width: 100% !important; max-width: 1000px !important;" placeholder="Tapez votre message ici ..."/>
+                <span id="send" class="icon fa fa-paper-plane" titre ="Envoyer" data-placement="bottom"></span>
             </div>
 
         </div>
