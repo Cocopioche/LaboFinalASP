@@ -426,7 +426,13 @@
         @IconRelationButton(mainUser, otherUser)
     </div>
 }
+@helper UserRowChat(User mainUser, User otherUser)
+{
+    <div class="friendContainer" style="font-size:14px">
+        @AvatarProfilLink(otherUser)
 
+    </div>
+}
 //TODO
 
 @helper IconRelationButton(User mainUser, User otherUser)
