@@ -1,0 +1,23 @@
+[
+    {
+        "Id": 1,
+        "SenderId": 10,
+        "ReceiverId": 3,
+        "Accepted": true,
+        "Decline": false
+    },
+    {
+        "Id": 2,
+        "SenderId": 10,
+        "ReceiverId": 11,
+        "Accepted": false,
+        "Decline": false
+    },
+    {
+        "Id": 3,
+        "SenderId": 10,
+        "ReceiverId": 2,
+        "Accepted": false,
+        "Decline": false
+    }
+]

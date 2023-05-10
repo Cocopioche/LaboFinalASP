@@ -9,14 +9,15 @@ namespace ChatManager.Models
             List<User> friends = new List<User>();
             foreach (FriendshipsView friendship in DB.Friendships.ToList())
             {
-                if (friendship.SenderId == user.Id)
+                if (friendship.SenderId == user.Id && friendship.Accepted)
                 {
                     friends.Add(DB.Users.Get(friendship.ReceiverId));
                 }
-                else if (friendship.ReceiverId == user.Id)
+                else if (friendship.ReceiverId == user.Id && friendship.Accepted)
                 {
                     friends.Add(DB.Users.Get(friendship.SenderId));
                 }
+                
             }
             return friends;
         }

@@ -11,14 +11,12 @@
     @foreach (var item in Model)
     {
         //First User is the one scrolling
-        if (item != Model[0])
-        {
+       
 
-            Console.WriteLine(item.Id);
             @Helper.UserRowChat(Model[0], item)
 
 
-        }
+        
     }
 
 </table>
