@@ -5,18 +5,33 @@
 }
 
 
-<table class="table">
-
 
     @foreach (var item in Model)
     {
-        //First User is the one scrolling
+
        
+        var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+        var avatarUrl = Url.Content(item.GetAvatarURL());
+        <div class="unselectedTarget">
 
-            @Helper.UserRowChat(Model[0], item)
+            <div class="UserSmallAvatar" style="background: url(@avatarUrl)"></div>
 
 
-        
+        </div>
+
     }
 
-</table>
+@section Scripts {
+    <script defer>
+
+
+       
+         
+
+
+
+
+
+
+    </script>
+}
