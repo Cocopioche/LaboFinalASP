@@ -61,10 +61,15 @@
             @*// PartialRefresh.setEndSessionAction("@Url.Action("End", "Session")");*@
             let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
            
-            $(".btn-primary").click(function () {
-                console.log("here");
-                friendships.refresh(true)
+            $(document).ajaxSuccess(function(event, xhr, settings) {
+                if (!settings.url.includes("/Friendships/Index") && !settings.url.includes("/Friendships/Friendships")) {
+                    friendships.refresh()
+                }
+
             });
+
+            
+            
             
             $(".filter").click(function() {
                 var filterValue = $(this).val();
