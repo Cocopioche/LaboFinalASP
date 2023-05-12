@@ -442,16 +442,22 @@
 }
 @helper UserRowChat(User mainUser, User otherUser)
 {
-      string avatarClass = "UserMediumAvatar";
-      var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
-      var avatarUrl = Url.Content(otherUser.GetAvatarURL());
-    <div class="unselectedTarget" userdid = "@otherUser.Id" style="font-size:14px">
+    string avatarClass = "UserMediumAvatar";
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var avatarUrl = Url.Content(otherUser.GetAvatarURL());
+    <div class="unselectedTarget" userdid="@otherUser.Id" style="font-size:14px">
         <div class="@avatarClass" style="background: url(@avatarUrl)"></div>
-        
+
 
     </div>
 }
+@helper convUserChat(User user)
+{
 
+    <h4>Conversation avec </h4>
+    <div>@AvatarUser(user)</div>
+    
+}
 
 //TODO
 

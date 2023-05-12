@@ -12,7 +12,7 @@
        
         var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
         var avatarUrl = Url.Content(item.GetAvatarURL());
-        <div class="unselectedTarget">
+        <div class="unselectedTarget" userid="@item.Id">
 
             <div class="UserSmallAvatar" style="background: url(@avatarUrl)"></div>
 

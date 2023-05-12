@@ -34,13 +34,25 @@ namespace ChatManager.Controllers
         {
             if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
             {
+                
                 //Send A list of all User tat is not the user in the sessions and is verified
                 //List<User> listUser = DB.Friendships.GetFriends(OnlineUsers.GetSessionUser());
 
 
-              //  return PartialView(listUser);
+                 return PartialView();
             }
             return null;
+        }
+        public ActionResult SetCurrentTarget(int userId)
+        {
+            // Modifier ici la façon dont l'utilisateur courant est déterminé
+            User currentUser = DB.Users.FindUser(userId);
+           
+
+            // Ajouter le userId dans le ViewBag
+            ViewBag.CurrentTargetId = userId;
+
+            return PartialView(); ;
         }
 
     }
