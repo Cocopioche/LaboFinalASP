@@ -34,11 +34,11 @@
             string chekBoxId = usersCheckListName + "_" + user.Id.ToString();
             if (selectedUsers.Contains(user.Id))
             {
-                <input type="checkbox" name="@usersCheckListName" id="@chekBoxId" value="@user.Id" checked/>
+                <input type="checkbox" name="@usersCheckListName" id="@chekBoxId" value="@user.Id" checked />
             }
             else
             {
-                <input type="checkbox" name="@usersCheckListName" id="@chekBoxId" value="@user.Id"/>
+                <input type="checkbox" name="@usersCheckListName" id="@chekBoxId" value="@user.Id" />
             }
             <label for="@chekBoxId">
                 @Helper.AvatarUser(user, "UserSmallAvatar")
@@ -56,14 +56,14 @@
         icon = (onLine ? "~/Content/UI-icons/OnLine.png" : "~/Content/UI-icons/Masked.png");
     }
     var iconUrl = Url.Content(icon);
-    <img src="@iconUrl" class="small_icon"/>
+    <img src="@iconUrl" class="small_icon" />
 }
 
 @helper TimeOutIcon()
 {
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     var iconUrl = Url.Content("~/Content/UI-icons/timeout.png");
-    <img src="@iconUrl" class="small_icon"/>
+    <img src="@iconUrl" class="small_icon" />
 }
 
 @helper Checked(bool checkStatus)
@@ -71,7 +71,7 @@
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     if (checkStatus)
     {
-        <img src="@Url.Content("~/Content/UI-icons/Accept.png")" class="small_icon"/>
+        <img src="@Url.Content("~/Content/UI-icons/Accept.png")" class="small_icon" />
     }
     else
     {
@@ -100,7 +100,7 @@
             break;
     }
     var iconUrl = Url.Content(icon);
-    <img src="@iconUrl" class="UserSmallAvatar" title="@tooltip"/>
+    <img src="@iconUrl" class="UserSmallAvatar" title="@tooltip" />
 }
 
 @helper GenderIcon(int genderId)
@@ -120,14 +120,14 @@
             break;
     }
     var iconUrl = Url.Content(icon);
-    <img src="@iconUrl" class="small_icon"/>
+    <img src="@iconUrl" class="small_icon" />
 }
 
 @helper ImageLink(string controller, string action, string imageUrl, string imageClass, string title)
 {
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     <a href="@Url.Action(action, controller)">
-        <img src="@Url.Content(imageUrl)" class="@imageClass" title="@title"/>
+        <img src="@Url.Content(imageUrl)" class="@imageClass" title="@title" />
     </a>
 }
 
@@ -202,17 +202,17 @@
             <div class="RadioButton">
                 @if (option.Value == selectedValue.ToString())
                 {
-                    <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" checked/>
+                    <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" checked />
                 }
                 else
                 {
-                    <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()"/>
+                    <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" />
                 }
                 <label for="@id">@option.Text</label>
             </div>
         }
     </div>
-    <br/>
+    <br />
 }
 
 @helper SelectionLists(string controlId, System.Web.Mvc.SelectList selectedItems, System.Web.Mvc.SelectList items, int size = 10)
@@ -304,7 +304,7 @@
     var country = ChatManager.Models.Countries.Get(countryCode);
     if (country != null)
     {
-        <img id="flag" src="@country.Flag" title="@country.Name" style="width:40px;"/>
+        <img id="flag" src="@country.Flag" title="@country.Name" style="width:40px;" />
     }
 }
 
@@ -361,23 +361,23 @@
                 var webp = image + ".webp";
                 var png = image + ".png";
                 var jpg = image + ".jpg";
-                <br/>
+                <br />
                 <picture class="contentImage">
                     <source type="image/webp" srcset="@webp">
                     <source type="image/png" srcset="@png">
                     <img src="@jpg" style="width: auto;">
                 </picture>
-                <br/>
+                <br />
             }
             else
             {
                 if (t.Contains(".jpg") || t.Contains(".jpeg") || t.Contains(".png") || t.Contains(".bmp"))
                 {
-                    <br/>
+                    <br />
                     <a href="@token" target="_blank">
-                        <img class="contentImage" src="@token" alt=""/>
+                        <img class="contentImage" src="@token" alt="" />
                     </a>
-                    <br/>
+                    <br />
                 }
                 else
                 {
@@ -389,11 +389,11 @@
                             youtubeId = youtubeId.Substring(0, youtubeId.IndexOf("&"));
                         }
                         string youtubeThumbnail = "https://i3.ytimg.com/vi/" + youtubeId + "/maxresdefault.jpg";
-                        <br/>
+                        <br />
                         <a href="@token" target="_blank">
-                            <img class="contentImage" src="@youtubeThumbnail" alt=""/>
+                            <img class="contentImage" src="@youtubeThumbnail" alt="" />
                         </a>
-                        <br/>
+                        <br />
                     }
                     else
                     {
@@ -412,7 +412,7 @@
         {
             if (t.Contains("[hr]"))
             {
-                <hr/>
+                <hr />
             }
             else
             {
@@ -432,11 +432,23 @@
 }
 @helper UserRowChat(User mainUser, User otherUser)
 {
-    <div class="friendContainer" style="font-size:14px">
-        @AvatarUser(otherUser)
+    string avatarClass = "UserMediumAvatar";
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var avatarUrl = Url.Content(otherUser.GetAvatarURL());
+    <div class="unselectedTarget" userdid="@otherUser.Id" style="font-size:14px">
+        <div class="@avatarClass" style="background: url(@avatarUrl)"></div>
+
 
     </div>
 }
+@helper convUserChat(User user)
+{
+
+    <h4>Conversation avec </h4>
+    <div>@AvatarUser(user)</div>
+    
+}
+
 //TODO
 
 @helper IconRelationButton(User mainUser, User otherUser,Object partialRefresh = null)
