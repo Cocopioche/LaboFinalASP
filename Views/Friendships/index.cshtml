@@ -57,34 +57,70 @@
     @Scripts.Render("~/bundles/jqueryval")
     @section Scripts {
         <script defer>
-            
             @*// PartialRefresh.setEndSessionAction("@Url.Action("End", "Session")");*@
             let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
            
             $(document).ajaxSuccess(function(event, xhr, settings) {
                 if (!settings.url.includes("/Friendships/Index") && !settings.url.includes("/Friendships/Friendships")) {
-                    friendships.refresh()
+                    friendships.refresh(true)
                 }
-
+                applyFilter()
             });
 
             
+            let searchValue = "";
             
+            $("#searchButton").click(function() {
+                searchValue = $("#searchInput").val();
+                updateFriendships();
+            });
+            
+            $("#searchInput").keyup(function(event) {
+                if (event.keyCode === 13) {
+                    searchValue = $("#searchInput").val();
+                    updateFriendships();
+                }
+            });
+            
+            function updateFriendships() {
+                let url = "@Url.Action("Friendships", new { search = "valueVarHere" })".replace("valueVarHere", searchValue);
+                friendships.pause()
+                friendships = new PartialRefresh(url, "friendshipsListContainer", 5);
+                friendships.refresh();
+            }
             
             $(".filter").click(function() {
                 var filterValue = $(this).val();
             
                 if ($(this).is(":checked")) {
                     $("." + filterValue).show();
-                    if (filterValue === @FriendshipStatus.IDecline.ToString()){
-                        $("." + @FriendshipStatus.OtherDecline.ToString()).show();
+                    if (filterValue === "@FriendshipStatus.IDecline.ToString()"){
+                        $("." + "@FriendshipStatus.OtherDecline.ToString()").show();
                     }
                 } else {
                     $("." + filterValue).hide();
-                    if (filterValue === @FriendshipStatus.IDecline.ToString()){
-                        $("." + @FriendshipStatus.OtherDecline.ToString()).hide();
+                    if (filterValue === "@FriendshipStatus.IDecline.ToString()"){
+                        $("." + "@FriendshipStatus.OtherDecline.ToString()").hide();
                     }
                 }
             });
+            
+            
+            function applyFilter() {
+              $(".filter").each(function() {
+                var filterValue = $(this).val();
+                if ($(this).is(":checked")) {
+                    $("." + filterValue).show();
+                    if (filterValue === "@FriendshipStatus.IDecline.ToString()"){
+                    $("." + "@FriendshipStatus.OtherDecline.ToString()").show();
+                    }
+                } else {
+                    $("." + filterValue).hide();
+                    if (filterValue === "@FriendshipStatus.IDecline.ToString()"){
+                    $("." + "@FriendshipStatus.OtherDecline.ToString()").hide();
+                  }
+                }
+              });
+            }
         </script>
     }
