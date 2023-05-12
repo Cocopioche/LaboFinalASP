@@ -48,43 +48,38 @@ namespace ChatManager.Controllers
         }
 
 
-        public ActionResult SendFriendRequest(User otherUser)
+        public void SendFriendRequest(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.SendRequest(mainUser, otherUser);
-            return RedirectToAction("Friendships");
         }
 
 
-        public ActionResult AcceptFriendRequest(User otherUser)
+        public void AcceptFriendRequest(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.AcceptRequest(mainUser, otherUser);
-            return RedirectToAction("Index");
         }
 
 
-        public ActionResult DeclineFriendRequest(User otherUser)
+        public void DeclineFriendRequest(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.DeclineRequest(mainUser, otherUser);
-            return RedirectToAction("Index");
         }
 
 
-        public ActionResult RemoveFriend(User otherUser)
+        public void RemoveFriend(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.RemoveFriendships(mainUser, otherUser);
-            return RedirectToAction("Index");
         }
 
 
-        public ActionResult RemoveRequest(User otherUser)
+        public void RemoveRequest(User otherUser)
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.RemoveRequest(mainUser, otherUser);
-            return RedirectToAction("Index");
         }
     }
 }
