@@ -1,5 +1,5 @@
 ﻿@using ChatManager.Models
-@model List<ChatManager.Models.User>
+
 
 
 
@@ -15,16 +15,16 @@
     <div style=" display: grid; grid-template-columns: 60px auto; column-gap: 10px;">
 
         <div class="friendsListContainer" id="friendshipsListContainer" titre="Cliquez sur un de vos amis pour clavarder avec lui ...">
-           
+
 
         </div>
 
         <div>
-            <div class="messagesPanel" id="messagePanel" title="selectionner un amis" >
+            <div class="messagesPanel" id="messagePanel" title="selectionner un amis">
                 <div class="messagesHeader">
                     @if (ViewBag.CurrentTargetId != null)
                     {
-                      //  var currentTarget = Model.FirstOrDefault(u => u.Id == ViewBag.CurrentTargetId);
+                        //  var currentTarget = Model.FirstOrDefault(u => u.Id == ViewBag.CurrentTargetId);
                         <h4> Avatar</h4>
                     }
                     else
@@ -46,35 +46,102 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval");
+    @Scripts.Render("~/bundles/jquery");
+    @Scripts.Render("~/bundles/bootstrap");
+    @Scripts.Render("~/bundles/NotificationsHandler");
     
     <script defer>
 
 
-       
+
 
 
         let friendsPannelUpdater = new PartialRefresh("/Chat/GetFriendList", "friendshipsListContainer", 5, UpdateFriendsCallback);
-        let messagesPanelUptater = new PartialRefresh("/Chat/GetMessages", "messagesPanel", 5, UpdateMessagesCallback);
+        let messagesPanelUpdater = new PartialRefresh("/Chat/GetMessages", "messagesPanel", 5, UpdateMessagesCallback);
 
         function UpdateFriendsCallback() {
-            messagesPanelUptater.refresh(true);
+            messagesPanelUpdater.refresh(true);
+
             $(".unselectedTarget").click(function () {
                 $('.selectedTarget').removeClass('selectedTarget').addClass('unselectedTarget');
                 $(this).removeClass('unselectedTarget').addClass('selectedTarget');
-                
+
 
                 var userId = $(this).attr("userid");
-                console.log(userId);
-                
-                ajaxActionCall("/Chat/SetCurrentTarget/" + userId);//, () => {
-                   // friendsPanelUpdater.refresh(true); messagesPanelUptater.refresh(true);
-                //});
+
+
+                ajaxActionCall("/Chat/SetCurrentTarget?userId=" + userId, () => {
+                    // Code à exécuter après que l'action a été appelée avec succès
+                    // Par exemple, mettre à jour les panels de messages et d'amis
+                    friendsPannelUpdater.refresh(true);
+                   // messagesPanelUpdater.refresh(true);
+                });
+
             })
         }
+        let editing = false;
+        let targetTyping = false;
+
+
+
         function UpdateMessagesCallback() {
-            
-            
+            $("#typing").hide();
+            $(".editMessage").hide();
+            $("#messagesPanel").scrollTop($("#messagesPanel")[0]);
+
+            $(".contentImage").click(function (event) {
+                event.stopPropagation();
+            })
+            $("a").click(function (event) {
+                event.stopPropagation();
+            })
+            $(".sent").click(function () {
+                if (!editing) {
+                    setEditing(true);
+                    var message_id = $(this).attr("id").split("_")[1];
+                    $("#edit_" + message_id).show();
+                    $("#sent_" + message_id).hide();
+                    $("#delete_" + message_id).click(function () {
+                        setEditing(false);
+                        messagesPanelUpdater.confirmedCommand("Effacer ce message", "/Chat/Delete/" + message_id);
+                    })
+                    $("#update_" + message_id).click(function () {
+                        setEditing(false);
+                        var message = $("#" + message_id).val();
+                        messagesPanelUpdater.command("/Chat/Update?id=" + message_id + "&message=" + message);
+                    })
+                    $('#' + message_id).keypress(function (event) {
+                        var keycode = (event.keyCode ? event.keyCode : event.which);
+                        if (keycode == '13') {
+                            setEditing(false);
+                            var message = $("#" + message_id).val();
+                            messagesPanelUpdater.command("/Chat/Update?id=" + message_id + "&message=" + message);
+                        }
+                    });
+                    $(document).on('keyup', function (event) {
+                        if (event.key == "Escape") {
+                            $("#edit_" + message_id).hide();
+                            $("#sent_" + message_id).show();
+                            setEditing(false);
+                        }
+                    });
+                }
+            });
         }
+
+
+
+        function UpdateTyping(show) {
+            if (show)
+                $("#typing").show();
+            else
+                $("#typing").hide();
+        }
+
+        $("#send").click(function () {
+            sendMessage();
+        })
+
 
 
 

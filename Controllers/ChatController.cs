@@ -43,6 +43,7 @@ namespace ChatManager.Controllers
             }
             return null;
         }
+        [HttpGet]
         public ActionResult SetCurrentTarget(int userId)
         {
             // Modifier ici la façon dont l'utilisateur courant est déterminé
@@ -54,6 +55,6 @@ namespace ChatManager.Controllers
 
             return PartialView(); ;
         }
-
+        
     }
 }
