@@ -95,7 +95,7 @@ function ajaxActionCall(actionLink, callback = null) {
     });
 }
 
-function ajaxActionCallParams(actionLink,callback = null) {
+function ajaxActionCallParams(actionLink,para,callback = null) {
     // Ajax Action Call to actionLink
     $.ajax({
         url: actionLink,
