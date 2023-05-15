@@ -40,7 +40,6 @@ namespace ChatManager.Controllers
                     listUser.AddRange(DB.Users.ToList().Where(x => x.Id != OnlineUsers.GetSessionUser().Id &&
                                                                    x.Verified).ToList());
                 }
-
                 return PartialView(listUser);
             }
 
@@ -52,6 +51,7 @@ namespace ChatManager.Controllers
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.SendRequest(mainUser, otherUser);
+            OnlineUsers.AddNotification(otherUser.Id, $"{mainUser.FirstName} {mainUser.LastName} vous a envoyé une demande d'ami");
         }
 
 
@@ -59,6 +59,7 @@ namespace ChatManager.Controllers
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.AcceptRequest(mainUser, otherUser);
+            OnlineUsers.AddNotification(otherUser.Id,$"{mainUser.FirstName} {mainUser.LastName} a accepté votre demande d'ami");
         }
 
 
@@ -66,6 +67,7 @@ namespace ChatManager.Controllers
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.DeclineRequest(mainUser, otherUser);
+            OnlineUsers.AddNotification(otherUser.Id,$"{mainUser.FirstName} {mainUser.LastName} a reffusé votre demande d'ami");
         }
 
 
@@ -73,6 +75,7 @@ namespace ChatManager.Controllers
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.RemoveFriendships(mainUser, otherUser);
+            OnlineUsers.AddNotification(otherUser.Id,$"{mainUser.FirstName} {mainUser.LastName} n'est plus votre ami");
         }
 
 
@@ -80,6 +83,7 @@ namespace ChatManager.Controllers
         {
             User mainUser = OnlineUsers.GetSessionUser();
             DB.Friendships.RemoveRequest(mainUser, otherUser);
+            OnlineUsers.AddNotification(otherUser.Id,$"{mainUser.FirstName} {mainUser.LastName} a annulé la demande d'ami");
         }
     }
 }

@@ -54,8 +54,12 @@
     </div>
 
 </div>
-    @Scripts.Render("~/bundles/jqueryval")
+    
     @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval");
+        @Scripts.Render("~/bundles/jquery");
+        @Scripts.Render("~/bundles/bootstrap");
+        @Scripts.Render("~/bundles/NotificationsHandler");
         <script defer>
             @*// PartialRefresh.setEndSessionAction("@Url.Action("End", "Session")");*@
             let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
