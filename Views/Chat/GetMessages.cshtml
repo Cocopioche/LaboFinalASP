@@ -3,6 +3,17 @@
 @{
     ViewBag.Title = "GetMessages";
 }
+<div class="messagesHeader">
 
-<h2>GetMessages</h2>
+    @if (ViewBag.CurrentTargetId != null)
+    {
 
+        //  var currentTarget = Model.FirstOrDefault(u => u.Id == ViewBag.CurrentTargetId);
+        <h4> Avatar</h4>
+    }
+    else
+    {
+        // Console.WriteLine(ViewBag.CurrentTargetId);
+        <h4>Sélectionnez un ami</h4>
+    }
+</div>

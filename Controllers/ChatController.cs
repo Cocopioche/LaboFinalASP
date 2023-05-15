@@ -44,16 +44,15 @@ namespace ChatManager.Controllers
             return null;
         }
         [HttpGet]
-        public ActionResult SetCurrentTarget(int userId)
+        public void SetCurrentTarget(int userId)
         {
-            // Modifier ici la façon dont l'utilisateur courant est déterminé
-            User currentUser = DB.Users.FindUser(userId);
            
-
+            // User currentUser = DB.Users.FindUser(userId);
             // Ajouter le userId dans le ViewBag
             ViewBag.CurrentTargetId = userId;
+           
 
-            return PartialView(); ;
+       
         }
         
     }

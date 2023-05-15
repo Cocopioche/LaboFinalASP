@@ -8,8 +8,9 @@
 
     @foreach (var item in Model)
     {
+  
 
-       
+
         var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
         var avatarUrl = Url.Content(item.GetAvatarURL());
         <div class="unselectedTarget" userid="@item.Id">
@@ -19,14 +20,17 @@
 
         </div>
 
+
     }
+
+
 
 @section Scripts {
     <script defer>
 
 
-       
-         
+
+
 
 
 

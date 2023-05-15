@@ -1,60 +1,65 @@
 ﻿@using ChatManager.Models
+@model List<ChatManager.Models.User>
+
+@{
+
+
+    <div style="align-items: center; display: grid; grid-template-columns: 65px auto; ">
+        <img src="~/favicon.png" style=" width: 56px;" />
+        <h3>Salle de discussions</h3>
+    </div>
+    <hr />
+
+    <div class="main">
+
+        <div style=" display: grid; grid-template-columns: 60px auto; column-gap: 10px;">
+
+            <div class="friendsListContainer" id="friendshipsListContainer" titre="Cliquez sur un de vos amis pour clavarder avec lui ...">
+
+
+            </div>
+
+            <div>
+                <div class="messagesPanel" id="messagesPanel" title="selectionner un amis">
+                    <div class="messagesHeader">
+
+                        @if (ViewBag.CurrentTargetId != null)
+                        {
+
+                            <h4>user</h4>
+                        }
+                        else
+                        {
+                            <h4>Sélectionnez un ami</h4>
+                        }
 
 
 
 
-
-<div style="align-items: center; display: grid; grid-template-columns: 65px auto; ">
-    <img src="~/favicon.png" style=" width: 56px;" />
-    <h3>Salle de discussions</h3>
-</div>
-<hr />
-
-<div class="main">
-
-    <div style=" display: grid; grid-template-columns: 60px auto; column-gap: 10px;">
-
-        <div class="friendsListContainer" id="friendshipsListContainer" titre="Cliquez sur un de vos amis pour clavarder avec lui ...">
+                    </div>
 
 
-        </div>
-
-        <div>
-            <div class="messagesPanel" id="messagePanel" title="selectionner un amis">
-                <div class="messagesHeader">
-                    @if (ViewBag.CurrentTargetId != null)
-                    {
-                        //  var currentTarget = Model.FirstOrDefault(u => u.Id == ViewBag.CurrentTargetId);
-                        <h4> Avatar</h4>
-                    }
-                    else
-                    {
-                        <h4>Sélectionnez un ami</h4>
-                    }
+                </div>
+                <div class="sendMessageLayout">
+                    <input id="message" class="form-control" style="width: 100% !important; max-width: 1000px !important;" placeholder="Tapez votre message ici ..." />
+                    <span id="send" class="icon fa fa-paper-plane" titre="Envoyer" data-placement="bottom"></span>
                 </div>
 
-
-            </div>
-            <div class="sendMessageLayout">
-                <input id="message" class="form-control" style="width: 100% !important; max-width: 1000px !important;" placeholder="Tapez votre message ici ..." />
-                <span id="send" class="icon fa fa-paper-plane" titre="Envoyer" data-placement="bottom"></span>
             </div>
 
         </div>
-
     </div>
-</div>
+}
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval");
     @Scripts.Render("~/bundles/jquery");
     @Scripts.Render("~/bundles/bootstrap");
     @Scripts.Render("~/bundles/NotificationsHandler");
-    
+
     <script defer>
 
-
-
-
+        //var CurrentTargetId = ViewBag.CurrentTargetId;
 
         let friendsPannelUpdater = new PartialRefresh("/Chat/GetFriendList", "friendshipsListContainer", 5, UpdateFriendsCallback);
         let messagesPanelUpdater = new PartialRefresh("/Chat/GetMessages", "messagesPanel", 5, UpdateMessagesCallback);
@@ -63,21 +68,24 @@
             messagesPanelUpdater.refresh(true);
 
             $(".unselectedTarget").click(function () {
-                $('.selectedTarget').removeClass('selectedTarget').addClass('unselectedTarget');
-                $(this).removeClass('unselectedTarget').addClass('selectedTarget');
 
+               
 
-                var userId = $(this).attr("userid");
+                var userId = $(this).attr("userId");
 
+                //let userId = 3;
+                console.log(userId);
 
                 ajaxActionCall("/Chat/SetCurrentTarget?userId=" + userId, () => {
-                    // Code à exécuter après que l'action a été appelée avec succès
-                    // Par exemple, mettre à jour les panels de messages et d'amis
-                    friendsPannelUpdater.refresh(true);
-                   // messagesPanelUpdater.refresh(true);
-                });
+                
+                   friendsPannelUpdater.refresh(true);
+                    messagesPanelUpdater.refresh(true);
+                    $('.selectedTarget').removeClass('selectedTarget').addClass('unselectedTarget');
 
-            })
+                    $(this).removeClass('unselectedTarget').addClass('selectedTarget');
+                });
+                // if (ViewBag.CurrentTargetId != null)
+            });
         }
         let editing = false;
         let targetTyping = false;
