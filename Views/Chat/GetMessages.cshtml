@@ -1,19 +1,32 @@
-﻿@model ChatManager.Models.ChatView
-
+﻿@using ChatManager.Models
+@model IEnumerable<ChatManager.Models.Message>
 @{
     ViewBag.Title = "GetMessages";
+
 }
+
+
+
 <div class="messagesHeader">
 
-    @if (ViewBag.CurrentTargetId != null)
-    {
 
-        //  var currentTarget = Model.FirstOrDefault(u => u.Id == ViewBag.CurrentTargetId);
-        <h4> Avatar</h4>
+    @if (Session["CurrentTarget"] != null)
+    {
+        User user = (ChatManager.Models.User)Session["CurrentTarget"];
+       
+        @Helper.convUserChat(user);
+
     }
     else
     {
-        // Console.WriteLine(ViewBag.CurrentTargetId);
         <h4>Sélectionnez un ami</h4>
     }
+
+
+
+
+</div>
+<div>
+
+
 </div>

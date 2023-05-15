@@ -277,7 +277,6 @@
     <Content Include="Views\Friendships\Friendships.cshtml" />
     <Content Include="Views\Chat\GetFriendList.cshtml" />
     <Content Include="Views\Chat\GetMessages.cshtml" />
-    <Content Include="Views\Chat\SetCurrentTarget.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

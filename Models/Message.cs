@@ -9,7 +9,8 @@ namespace ChatManager.Models
             PostingTime = DateTime.Now;
         }
         public int Id { get; set; }
-        public int IdUser { get; set; }
+        public int IdUserMain { get; set; }
+        public int IdUserOther { get; set; }
         public string Text { get; set; }
         public DateTime PostingTime { get; set; }
     }

@@ -6,13 +6,29 @@
 
 
 
-    @foreach (var item in Model)
+@foreach (var item in Model)
+{
+
+
+
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var avatarUrl = Url.Content(item.GetAvatarURL());
+
+    User user = (ChatManager.Models.User)Session["CurrentTarget"];
+
+
+    if (item == user)
     {
-  
+        <div class="selectedTarget" userid="@item.Id">
+
+            <div class="UserSmallAvatar" style="background: url(@avatarUrl)"></div>
 
 
-        var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
-        var avatarUrl = Url.Content(item.GetAvatarURL());
+        </div>
+
+    }
+    else
+    {
         <div class="unselectedTarget" userid="@item.Id">
 
             <div class="UserSmallAvatar" style="background: url(@avatarUrl)"></div>
@@ -20,8 +36,11 @@
 
         </div>
 
-
     }
+
+
+
+}
 
 
 

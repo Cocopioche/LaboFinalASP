@@ -21,22 +21,7 @@
 
             <div>
                 <div class="messagesPanel" id="messagesPanel" title="selectionner un amis">
-                    <div class="messagesHeader">
-
-                        @if (ViewBag.CurrentTargetId != null)
-                        {
-
-                            <h4>user</h4>
-                        }
-                        else
-                        {
-                            <h4>Sélectionnez un ami</h4>
-                        }
-
-
-
-
-                    </div>
+                    
 
 
                 </div>
@@ -65,26 +50,28 @@
         let messagesPanelUpdater = new PartialRefresh("/Chat/GetMessages", "messagesPanel", 5, UpdateMessagesCallback);
 
         function UpdateFriendsCallback() {
+
             messagesPanelUpdater.refresh(true);
 
             $(".unselectedTarget").click(function () {
 
-               
+                $('.selectedTarget').removeClass('selectedTarget').addClass('unselectedTarget');
+                $(this).removeClass('unselectedTarget').addClass('selectedTarget');
 
                 var userId = $(this).attr("userId");
 
                 //let userId = 3;
                 console.log(userId);
 
-                ajaxActionCall("/Chat/SetCurrentTarget?userId=" + userId, () => {
-                
-                   friendsPannelUpdater.refresh(true);
-                    messagesPanelUpdater.refresh(true);
-                    $('.selectedTarget').removeClass('selectedTarget').addClass('unselectedTarget');
+               // ajaxActionCall("/Chat/SetCurrentTarget/" + userId, () => {
+                 //   friendsPanelUpdater.refresh(true); messagesPanelUpdater.refresh(true);
+                //});
 
-                    $(this).removeClass('unselectedTarget').addClass('selectedTarget');
-                });
-                // if (ViewBag.CurrentTargetId != null)
+                 ajaxActionCall("/Chat/SetCurrentTarget?userId=" + userId, () => {
+                    // friendsPannelUpdater.refresh(true);
+                    
+                     friendsPannelUpdater.refresh(true);
+                 });
             });
         }
         let editing = false;

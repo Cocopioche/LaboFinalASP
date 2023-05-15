@@ -10,13 +10,24 @@ namespace ChatManager.Controllers
     public class ChatController : Controller
     {
         // GET: Chat
-        
+        private User CurrentTarget
+        {
+            get
+            {
+                return (User)Session["CurrentTarget"];
+            }
+            set
+            {
+                Session["CurrentTarget"] = value;
+            }
+        }
+
         public ActionResult Index()
         {
             //get id of the current user in the session
-           
+
             return View();
-            
+
         }
         public ActionResult GetFriendList(bool forceRefresh = false)
         {
@@ -34,26 +45,15 @@ namespace ChatManager.Controllers
         {
             if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
             {
-                
-                //Send A list of all User tat is not the user in the sessions and is verified
-                //List<User> listUser = DB.Friendships.GetFriends(OnlineUsers.GetSessionUser());
-
-
-                 return PartialView();
+                return PartialView();
             }
             return null;
         }
-        [HttpGet]
-        public void SetCurrentTarget(int userId)
+        public ActionResult SetCurrentTarget(int userId)
         {
-           
-            // User currentUser = DB.Users.FindUser(userId);
-            // Ajouter le userId dans le ViewBag
-            ViewBag.CurrentTargetId = userId;
-           
-
-       
+            CurrentTarget = DB.Users.Get(userId);
+            return null;
         }
-        
+
     }
 }
