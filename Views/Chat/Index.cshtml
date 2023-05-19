@@ -46,9 +46,14 @@
     <script defer>
 
         //var CurrentTargetId = ViewBag.CurrentTargetId;
+      
 
         let friendsPannelUpdater = new PartialRefresh("/Chat/GetFriendList", "friendshipsListContainer", 5, UpdateFriendsCallback);
         let messagesPanelUpdater = new PartialRefresh("/Chat/GetMessages", "messagesPanel", 5, UpdateMessagesCallback);
+       
+        let currentTargetId = 0;
+        if (currentTargetId == 0)
+            $("#sendMessagePanel").hide();
 
         function UpdateFriendsCallback() {
 
@@ -65,14 +70,16 @@
                 console.log(userId);
 
 
-                 ajaxActionCall("/Chat/SetCurrentTarget?userId=" + userId, () => {
-                    // friendsPannelUpdater.refresh(true);
+                ajaxActionCall("/Chat/SetCurrentTarget?userId=" + userId, () => {
+                    messagesPanelUpdater.refresh(true);
                     
                      friendsPannelUpdater.refresh(true);
                  });
+                $("#sendMessagePanel").show();
             });
         }
         let editing = false;
+        let targetTyping = false;
      
         function setEditing(value) {
             editing = value;

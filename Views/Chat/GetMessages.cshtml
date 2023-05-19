@@ -8,58 +8,61 @@
 
 
 <div class="messagesHeader">
+ 
+   
 
-
-    @if (Session["CurrentTarget"] != null)
+    @if ((ChatManager.Models.User)Session["CurrentTarget"] == null)
     {
-        User user = (ChatManager.Models.User)Session["CurrentTarget"];
-       
-        @Helper.convUserChat(user);
 
+        <h4>Sélectionnez un ami</h4>
     }
     else
     {
-        <h4>Sélectionnez un ami</h4>
+        User user = (ChatManager.Models.User)Session["CurrentTarget"];
+
+        @Helper.convUserChat(user);
     }
+
 
 </div>
 
 <div>
-    @foreach (var item in Model)
+    @if (Model != null)
     {
-        User user = (ChatManager.Models.User)Session["CurrentTarget"];
-        if (Session["CurrentTarget"] != null)
+        foreach (var item in Model)
         {
+            User user = (ChatManager.Models.User)Session["CurrentTarget"];
+
             if (item.IdUserOther == user.Id)
             {
 
-                <div class="sentLayout">
-                    <div class="sent">
-                        <span>@item.Text</span>
-
-                    </div>
+            <div class="sentLayout">
+                <div class="sent">
+                    <span>@item.Text</span>
 
                 </div>
 
+            </div>
+
 
             }
-            else if(item.IdUserMain == OnlineUsers.GetSessionUser().Id)
+            else
             {
-                <div class="receivedLayout">
-                    <div class="received">
-                        <span> @item.Text</span>
-
-                    </div>
+            <div class="receivedLayout">
+                <div class="received">
+                    <span> @item.Text</span>
 
                 </div>
 
+            </div>
+
 
             }
+
 
         }
-
-
     }
+
 
 
 </div>

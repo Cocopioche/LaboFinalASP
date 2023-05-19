@@ -21,12 +21,12 @@ namespace ChatManager.Controllers
                 Session["CurrentTarget"] = value;
             }
         }
-
+        [OnlineUsers.UserAccess]
         public ActionResult Index()
         {
-            
+
             //return View(model);
-            
+
 
             return View();
 
@@ -43,19 +43,27 @@ namespace ChatManager.Controllers
             }
             return null;
         }
+        [OnlineUsers.UserAccess(false)]
         public ActionResult GetMessages(bool forceRefresh = false)
         {
             if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
             {
-                List<Message> listMessage = DB.Messages.ToList();
-                foreach (var message in listMessage)
+                if (CurrentTarget != null)
                 {
-                    if (message.IdUserOther != CurrentTarget.Id)
+                  
+                    List<Message> listMessageMain = DB.Messages.ToList();
+                    List<Message> listMessage = new List<Message>();
+                    foreach (var message in listMessageMain)
                     {
-                        listMessage.Remove(message);
+                      if (message.IdUserOther == CurrentTarget.Id)
+                      {
+                            listMessage.Add(message);
+                       }
                     }
+                    return PartialView(listMessage);
                 }
-                return PartialView(listMessage);
+                else
+                    return PartialView(null);
             }
             return null;
         }
@@ -64,13 +72,13 @@ namespace ChatManager.Controllers
             CurrentTarget = DB.Users.Get(userId);
             return null;
         }
-        
+
         public ActionResult Send(string message)
         {
             // Utilisez la valeur du message ici
 
             // ...
-            
+
             //DB.Messages.Add()
             User currentUser = OnlineUsers.GetSessionUser();
             User envoieUser = CurrentTarget;
