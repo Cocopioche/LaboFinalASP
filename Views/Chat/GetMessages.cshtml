@@ -36,9 +36,11 @@
             if (item.IdUserOther == user.Id)
             {
 
-            <div class="sentLayout">
-                <div class="sent">
-                    <span>@item.Text</span>
+                <div class="sentLayout">
+                    <div class="sent">
+                        <span>@helper.ParseContent(@item.Text)</span>
+
+                    </div>
 
                 </div>
 
