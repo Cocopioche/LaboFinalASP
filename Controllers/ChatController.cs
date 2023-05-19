@@ -86,8 +86,11 @@ namespace ChatManager.Controllers
             Console.WriteLine(envoieUser);
             Console.WriteLine(message);
 
+            OnlineUsers.AddNotification(currentUser.Id, $" nouveau message");
+
             Message message2 = new Message(currentUser.Id, envoieUser.Id, message);
             DB.Messages.Add(message2);
+
 
             return null;
         }

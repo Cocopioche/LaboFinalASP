@@ -50,7 +50,7 @@
 
         let friendsPannelUpdater = new PartialRefresh("/Chat/GetFriendList", "friendshipsListContainer", 5, UpdateFriendsCallback);
         let messagesPanelUpdater = new PartialRefresh("/Chat/GetMessages", "messagesPanel", 5, UpdateMessagesCallback);
-       
+        
         let currentTargetId = 0;
         if (currentTargetId == 0)
             $("#sendMessagePanel").hide();
@@ -79,6 +79,7 @@
             });
         }
         let editing = false;
+        
         let targetTyping = false;
      
         function setEditing(value) {
@@ -111,7 +112,7 @@
         function UpdateMessagesCallback() {
             $("#typing").hide();
             $(".editMessage").hide();
-            $("#messagesPanel").scrollTop($("#messagesPanel")[0]);
+            $("#messagesPanel").scrollTop($("#messagesPanel")[0].scrollHeight +100);
 
             $(".contentImage").click(function (event) {
                 event.stopPropagation();
@@ -120,7 +121,11 @@
                 event.stopPropagation();
             })
             $(".sent").click(function () {
-                if (!editing) {
+               
+                if(!editing) {
+                   // $('.sentLayout').removeClass('sentLayout').addClass('editMessage');
+                    //$(this).removeClass('editMessage').addClass('sentLayout');
+                    console.log(editing);
                     setEditing(true);
                     var message_id = $(this).attr("id").split("_")[1];
                     $("#edit_" + message_id).show();
