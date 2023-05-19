@@ -46,8 +46,9 @@ namespace ChatManager.Controllers
         [OnlineUsers.UserAccess(false)]
         public ActionResult GetMessages(bool forceRefresh = false)
         {
-            if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
+            if (CurrentTarget != null)
             {
+
                 if (CurrentTarget != null)
                 {
                   
@@ -64,7 +65,9 @@ namespace ChatManager.Controllers
                 }
                 else
                     return PartialView(null);
+
             }
+
             return null;
         }
         public ActionResult SetCurrentTarget(int userId)

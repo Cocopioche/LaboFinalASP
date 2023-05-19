@@ -10,8 +10,8 @@ namespace ChatManager.Controllers
 {
     public class AccountsController : Controller
     {
-
         #region Account creation
+
         [HttpPost]
         public JsonResult EmailAvailable(string email, int Id = 0)
         {
@@ -47,6 +47,7 @@ namespace ChatManager.Controllers
                 else
                     return RedirectToAction("Report", "Errors", new { message = "Échec de création de compte" });
             }
+
             ViewBag.Genders = SelectListUtilities<Gender>.Convert(DB.Genders.ToList());
             return View(user);
         }
@@ -58,9 +59,11 @@ namespace ChatManager.Controllers
                 return View(newlySubscribedUser);
             return RedirectToAction("Login");
         }
+
         #endregion
 
         #region Account Verification
+
         public void SendEmailVerification(User user, string newEmail)
         {
             if (user.Id != 0)
@@ -69,27 +72,32 @@ namespace ChatManager.Controllers
                 if (unverifiedEmail != null)
                 {
                     string verificationUrl = Url.Action("VerifyUser", "Accounts", null, Request.Url.Scheme);
-                    String Link = @"<br/><a href='" + verificationUrl + "?code=" + unverifiedEmail.VerificationCode + @"' > Confirmez votre inscription...</a>";
+                    String Link = @"<br/><a href='" + verificationUrl + "?code=" + unverifiedEmail.VerificationCode +
+                                  @"' > Confirmez votre inscription...</a>";
 
                     String suffixe = "";
                     if (user.GenderId == 2)
                     {
                         suffixe = "e";
                     }
+
                     string Subject = "ChatManager - Vérification d'inscription...";
 
                     string Body = "Bonjour " + user.GetFullName(true) + @",<br/><br/>";
                     Body += @"Merci de vous être inscrit" + suffixe + " au site ChatManager. <br/>";
-                    Body += @"Pour utiliser votre compte vous devez confirmer votre inscription en cliquant sur le lien suivant : <br/>";
+                    Body +=
+                        @"Pour utiliser votre compte vous devez confirmer votre inscription en cliquant sur le lien suivant : <br/>";
                     Body += Link;
                     Body += @"<br/><br/>Ce courriel a été généré automatiquement, veuillez ne pas y répondre.";
-                    Body += @"<br/><br/>Si vous éprouvez des difficultés ou s'il s'agit d'une erreur, veuillez le signaler à <a href='mailto:"
-                         + SMTP.OwnerEmail + "'>" + SMTP.OwnerName + "</a> (Webmestre du site ChatManager)";
+                    Body +=
+                        @"<br/><br/>Si vous éprouvez des difficultés ou s'il s'agit d'une erreur, veuillez le signaler à <a href='mailto:"
+                        + SMTP.OwnerEmail + "'>" + SMTP.OwnerName + "</a> (Webmestre du site ChatManager)";
 
                     SMTP.SendEmail(user.GetFullName(), unverifiedEmail.Email, Subject, Body);
                 }
             }
         }
+
         public ActionResult VerifyDone(int id)
         {
             User newlySubscribedUser = DB.Users.Get(id);
@@ -97,14 +105,17 @@ namespace ChatManager.Controllers
                 return View(newlySubscribedUser);
             return RedirectToAction("Login");
         }
+
         public ActionResult VerifyError()
         {
             return View();
         }
+
         public ActionResult AlreadyVerified()
         {
             return View();
         }
+
         public ActionResult VerifyUser(string code)
         {
             UnverifiedEmail UnverifiedEmail = DB.Users.FindUnverifiedEmail(code);
@@ -123,16 +134,20 @@ namespace ChatManager.Controllers
                 else
                     RedirectToAction("VerifyError");
             }
+
             return RedirectToAction("VerifyError");
         }
+
         #endregion
 
         #region EmailChange
+
         public ActionResult EmailChangedAlert()
         {
             OnlineUsers.RemoveSessionUser();
             return View();
         }
+
         public void SendEmailChangedVerification(User user, string newEmail)
         {
             if (user.Id != 0)
@@ -141,29 +156,35 @@ namespace ChatManager.Controllers
                 if (unverifiedEmail != null)
                 {
                     string verificationUrl = Url.Action("VerifyUser", "Accounts", null, Request.Url.Scheme);
-                    String Link = @"<br/><a href='" + verificationUrl + "?code=" + unverifiedEmail.VerificationCode + @"' > Confirmez votre adresse...</a>";
+                    String Link = @"<br/><a href='" + verificationUrl + "?code=" + unverifiedEmail.VerificationCode +
+                                  @"' > Confirmez votre adresse...</a>";
 
                     string Subject = "ChatManager - Vérification de courriel...";
 
                     string Body = "Bonjour " + user.GetFullName(true) + @",<br/><br/>";
                     Body += @"Vous avez modifié votre adresse de courriel. <br/>";
-                    Body += @"Pour que ce changement soit pris en compte, vous devez confirmer cette adresse en cliquant sur le lien suivant : <br/>";
+                    Body +=
+                        @"Pour que ce changement soit pris en compte, vous devez confirmer cette adresse en cliquant sur le lien suivant : <br/>";
                     Body += Link;
                     Body += @"<br/><br/>Ce courriel a été généré automatiquement, veuillez ne pas y répondre.";
-                    Body += @"<br/><br/>Si vous éprouvez des difficultés ou s'il s'agit d'une erreur, veuillez le signaler à <a href='mailto:"
-                         + SMTP.OwnerEmail + "'>" + SMTP.OwnerName + "</a> (Webmestre du site ChatManager)";
+                    Body +=
+                        @"<br/><br/>Si vous éprouvez des difficultés ou s'il s'agit d'une erreur, veuillez le signaler à <a href='mailto:"
+                        + SMTP.OwnerEmail + "'>" + SMTP.OwnerName + "</a> (Webmestre du site ChatManager)";
 
                     SMTP.SendEmail(user.GetFullName(), unverifiedEmail.Email, Subject, Body);
                 }
             }
         }
+
         #endregion
 
         #region ResetPassword
+
         public ActionResult ResetPasswordCommand()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult ResetPasswordCommand(string Email)
         {
@@ -172,8 +193,10 @@ namespace ChatManager.Controllers
                 SendResetPasswordCommandEmail(Email);
                 return RedirectToAction("ResetPasswordCommandAlert");
             }
+
             return View(Email);
         }
+
         public void SendResetPasswordCommandEmail(string email)
         {
             ResetPasswordCommand resetPasswordCommand = DB.Users.Add_ResetPasswordCommand(email);
@@ -181,7 +204,8 @@ namespace ChatManager.Controllers
             {
                 User user = DB.Users.Get(resetPasswordCommand.UserId);
                 string verificationUrl = Url.Action("ResetPassword", "Accounts", null, Request.Url.Scheme);
-                String Link = @"<br/><a href='" + verificationUrl + "?code=" + resetPasswordCommand.VerificationCode + @"' > Réinitialisation de mot de passe...</a>";
+                String Link = @"<br/><a href='" + verificationUrl + "?code=" + resetPasswordCommand.VerificationCode +
+                              @"' > Réinitialisation de mot de passe...</a>";
 
                 string Subject = "ChatManager - Réinitialisaton ...";
 
@@ -190,12 +214,14 @@ namespace ChatManager.Controllers
                 Body += @"Procédez en cliquant sur le lien suivant : <br/>";
                 Body += Link;
                 Body += @"<br/><br/>Ce courriel a été généré automatiquement, veuillez ne pas y répondre.";
-                Body += @"<br/><br/>Si vous éprouvez des difficultés ou s'il s'agit d'une erreur, veuillez le signaler à <a href='mailto:"
-                     + SMTP.OwnerEmail + "'>" + SMTP.OwnerName + "</a> (Webmestre du site [nom de l'application])";
+                Body +=
+                    @"<br/><br/>Si vous éprouvez des difficultés ou s'il s'agit d'une erreur, veuillez le signaler à <a href='mailto:"
+                    + SMTP.OwnerEmail + "'>" + SMTP.OwnerName + "</a> (Webmestre du site [nom de l'application])";
 
                 SMTP.SendEmail(user.GetFullName(), user.Email, Subject, Body);
             }
         }
+
         public ActionResult ResetPassword(string code)
         {
             ResetPasswordCommand resetPasswordCommand = DB.Users.Find_ResetPasswordCommand(code);
@@ -203,6 +229,7 @@ namespace ChatManager.Controllers
                 return View(new PasswordView() { Code = code });
             return RedirectToAction("ResetPasswordError");
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult ResetPassword(PasswordView passwordView)
@@ -220,23 +247,29 @@ namespace ChatManager.Controllers
                 else
                     return RedirectToAction("ResetPasswordError");
             }
+
             return View(passwordView);
         }
+
         public ActionResult ResetPasswordCommandAlert()
         {
             return View();
         }
+
         public ActionResult ResetPasswordSuccess()
         {
             return View();
         }
+
         public ActionResult ResetPasswordError()
         {
             return View();
         }
+
         #endregion
 
         #region Profil
+
         [OnlineUsers.UserAccess]
         public ActionResult Profil()
         {
@@ -249,6 +282,7 @@ namespace ChatManager.Controllers
                 userToEdit.Password = userToEdit.ConfirmPassword = (string)Session["UnchangedPasswordCode"];
                 return View(userToEdit);
             }
+
             return null;
         }
 
@@ -289,17 +323,21 @@ namespace ChatManager.Controllers
                 else
                     return RedirectToAction("Report", "Errors", new { message = "Échec de modification de profil" });
             }
+
             ViewBag.Genders = SelectListUtilities<Gender>.Convert(DB.Genders.ToList());
             return View(currentUser);
         }
+
         #endregion
 
         #region Login and Logout
+
         public ActionResult Login(string message)
         {
             ViewBag.Message = message;
             return View(new LoginCredential());
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Login(LoginCredential loginCredential)
@@ -315,22 +353,26 @@ namespace ChatManager.Controllers
                     ModelState.AddModelError("Email", "Ce compte est bloqué.");
                     return View(loginCredential);
                 }
+
                 if (!DB.Users.EmailVerified(loginCredential.Email))
                 {
                     ModelState.AddModelError("Email", "Ce courriel n'est pas vérifié.");
                     return View(loginCredential);
                 }
+
                 User user = DB.Users.GetUser(loginCredential);
                 if (user == null)
                 {
                     ModelState.AddModelError("Password", "Mot de passe incorrect.");
                     return View(loginCredential);
                 }
+
                 if (OnlineUsers.IsOnLine(user.Id))
                 {
                     ModelState.AddModelError("Email", "Cet usager est déjà connecté.");
                     return View(loginCredential);
                 }
+
                 OnlineUsers.AddSessionUser(user.Id);
                 OnlineUsers.AddNotification(user.Id, $"Bonjour {user.GetFullName()}");
                 Session["currentLoginId"] = DB.Users.AddLogin(user.Id).Id;
@@ -339,6 +381,7 @@ namespace ChatManager.Controllers
 
             return View(loginCredential);
         }
+
         public ActionResult Logout()
         {
             User loggedUser = OnlineUsers.GetSessionUser();
@@ -347,12 +390,14 @@ namespace ChatManager.Controllers
                 DB.Users.UpdateLogout(loggedUser.Id);
                 OnlineUsers.RemoveSessionUser();
             }
+
             return RedirectToAction("Login");
         }
 
         #endregion
 
         #region Administrator actions
+
         public JsonResult NeedUpdate()
         {
             return Json(OnlineUsers.HasChanged(), JsonRequestBehavior.AllowGet);
@@ -365,28 +410,71 @@ namespace ChatManager.Controllers
             user.Blocked = blocked;
             return Json(DB.Users.Update(user), JsonRequestBehavior.AllowGet);
         }
+
         [OnlineUsers.AdminAccess]
         public JsonResult Delete(int userid)
         {
             return Json(DB.Users.Delete(userid), JsonRequestBehavior.AllowGet);
         }
+
         [OnlineUsers.AdminAccess]
         public ActionResult UserList()
         {
             return View();
         }
-        [OnlineUsers.AdminAccess(false)] // RefreshTimout = false otherwise periodical refresh with lead to never timed out session
+
+        [OnlineUsers.AdminAccess(
+            false)] // RefreshTimout = false otherwise periodical refresh with lead to never timed out session
         public ActionResult GetUsersList(bool forceRefresh = false)
         {
             if (forceRefresh || OnlineUsers.HasChanged())
             {
                 return PartialView(DB.Users.SortedUsers());
             }
+
             return null;
         }
+
+        [OnlineUsers.AdminAccess]
+        public ActionResult ModifyProfilAdmin(int userid)
+        {
+            ViewBag.UserTypeId = SelectListUtilities<UserType>.Convert(DB.UserTypes.ToList());
+            Models.User user = DB.Users.Get(userid);
+            user.ConfirmEmail  = user.Email;
+            Session["UserModifyByAdmin"] = user;
+            return View(user);
+        }
+
+        [OnlineUsers.AdminAccess]
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult ModifyProfilAdmin(User user)
+        {
+            User currentUser = (User)Session["UserModifyByAdmin"];
+            user.Id = currentUser.Id;
+            user.Avatar = currentUser.Avatar;
+            user.CreationDate = currentUser.CreationDate;
+            user.GenderId = currentUser.GenderId;
+            user.Password = currentUser.Password;
+            if (ModelState.IsValid)
+            {
+                if (DB.Users.Update(user))
+                {
+                    Session.Remove("UserModifyByAdmin");
+                    return RedirectToAction("UserList");
+                }
+                else
+                    return RedirectToAction("Report", "Errors", new { message = "Échec de modification de profil" });
+            }
+
+            ViewBag.UserTypeId = SelectListUtilities<UserType>.Convert(DB.UserTypes.ToList());
+            return View(user);
+        }
+
         #endregion
 
         #region GroupEmail
+
         [OnlineUsers.AdminAccess]
         public ActionResult GroupEmail(string status = "")
         {
@@ -395,6 +483,7 @@ namespace ChatManager.Controllers
             ViewBag.Status = status;
             return View(new GroupEmail() { Message = "Bonjour [Nom]," });
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult GroupEmail(GroupEmail groupEmail, List<int> SelectedUsers)
@@ -405,19 +494,24 @@ namespace ChatManager.Controllers
                 groupEmail.Send();
                 return RedirectToAction("GroupEmail", new { status = "Message envoyé avec succès." });
             }
+
             ViewBag.SelectedUsers = SelectedUsers;
             ViewBag.Users = DB.Users.SortedUsers();
             return View(groupEmail);
         }
+
         #endregion
 
         #region Login journal
+
         [OnlineUsers.AdminAccess]
         public ActionResult LoginsJournal()
         {
             return View();
         }
-        [OnlineUsers.AdminAccess(false)] // RefreshTimout = false otherwise periodical refresh with lead to never timed out session
+
+        [OnlineUsers.AdminAccess(
+            false)] // RefreshTimout = false otherwise periodical refresh with lead to never timed out session
         public ActionResult GetLoginsList(bool forceRefresh = false)
         {
             if (forceRefresh || OnlineUsers.HasChanged())
@@ -425,8 +519,10 @@ namespace ChatManager.Controllers
                 ViewBag.LoggedUsersId = new List<int>(OnlineUsers.ConnectedUsersId);
                 return PartialView(DB.Logins.ToList().OrderByDescending(l => l.LoginDate));
             }
+
             return null;
         }
+
         [OnlineUsers.AdminAccess]
         public ActionResult DeleteJournalDay(string day)
         {
@@ -435,10 +531,13 @@ namespace ChatManager.Controllers
                 DateTime date = DateTime.Parse(day);
                 DB.Users.DeleteLoginsJournalDay(date);
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+            }
+
             return RedirectToAction("LoginsJournal");
         }
+
         #endregion
     }
-
 }
