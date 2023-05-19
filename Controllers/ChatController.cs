@@ -24,7 +24,9 @@ namespace ChatManager.Controllers
 
         public ActionResult Index()
         {
-            //get id of the current user in the session
+            
+            //return View(model);
+            
 
             return View();
 
@@ -45,13 +47,33 @@ namespace ChatManager.Controllers
         {
             if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
             {
-                return PartialView();
+                List<Message> listMessage = DB.Messages.ToList();
+                return PartialView(listMessage);
             }
             return null;
         }
         public ActionResult SetCurrentTarget(int userId)
         {
             CurrentTarget = DB.Users.Get(userId);
+            return null;
+        }
+        
+        public ActionResult Send(string message)
+        {
+            // Utilisez la valeur du message ici
+
+            // ...
+            
+            //DB.Messages.Add()
+            User currentUser = OnlineUsers.GetSessionUser();
+            User envoieUser = CurrentTarget;
+            Console.WriteLine(currentUser);
+            Console.WriteLine(envoieUser);
+            Console.WriteLine(message);
+
+            Message message2 = new Message(currentUser.Id, envoieUser.Id, message);
+            DB.Messages.Add(message2);
+
             return null;
         }
 

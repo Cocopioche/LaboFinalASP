@@ -21,10 +21,11 @@
 
             <div>
                 <div class="messagesPanel" id="messagesPanel" title="selectionner un amis">
-                    
+
 
 
                 </div>
+                
                 <div class="sendMessageLayout">
                     <input id="message" class="form-control" style="width: 100% !important; max-width: 1000px !important;" placeholder="Tapez votre message ici ..." />
                     <span id="send" class="icon fa fa-paper-plane" titre="Envoyer" data-placement="bottom"></span>
@@ -63,9 +64,6 @@
                 //let userId = 3;
                 console.log(userId);
 
-               // ajaxActionCall("/Chat/SetCurrentTarget/" + userId, () => {
-                 //   friendsPanelUpdater.refresh(true); messagesPanelUpdater.refresh(true);
-                //});
 
                  ajaxActionCall("/Chat/SetCurrentTarget?userId=" + userId, () => {
                     // friendsPannelUpdater.refresh(true);
@@ -75,10 +73,34 @@
             });
         }
         let editing = false;
-        let targetTyping = false;
-
-
-
+     
+        function setEditing(value) {
+            editing = value;
+            if (editing) {
+                messagesPanelUpdater.pause();
+                $("#sendMessagePanel").hide()
+            }
+            else {
+                messagesPanelUpdater.restart();
+                $("#sendMessagePanel").show()
+            }
+        }
+        
+        function sendMessage() {
+            var message = $('#message').val();
+            $('#message').val("");
+            if (message != "") {
+                messagesPanelUpdater.command("/Chat/Send?message=" + message, UpdateMessagesCallback);
+            }
+        }
+        $('#message').keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                sendMessage();
+            }
+        });
+        
+       
         function UpdateMessagesCallback() {
             $("#typing").hide();
             $(".editMessage").hide();
@@ -124,14 +146,7 @@
             });
         }
 
-
-
-        function UpdateTyping(show) {
-            if (show)
-                $("#typing").show();
-            else
-                $("#typing").hide();
-        }
+        
 
         $("#send").click(function () {
             sendMessage();

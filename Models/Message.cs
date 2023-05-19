@@ -13,5 +13,12 @@ namespace ChatManager.Models
         public int IdUserOther { get; set; }
         public string Text { get; set; }
         public DateTime PostingTime { get; set; }
+
+        public Message(int idUserMain, int idUserOther, string text)
+        {
+            IdUserMain = idUserMain;
+            IdUserOther = idUserOther;
+            Text = text;
+        }
     }
 }
