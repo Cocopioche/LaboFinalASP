@@ -46,7 +46,7 @@ namespace ChatManager.Controllers
         [OnlineUsers.UserAccess(false)]
         public ActionResult GetMessages(bool forceRefresh = false)
         {
-            if (CurrentTarget != null)
+            if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
             {
 
                 if (CurrentTarget != null)
