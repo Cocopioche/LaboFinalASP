@@ -48,6 +48,13 @@ namespace ChatManager.Controllers
             if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
             {
                 List<Message> listMessage = DB.Messages.ToList();
+                foreach (var message in listMessage)
+                {
+                    if (message.IdUserOther != CurrentTarget.Id)
+                    {
+                        listMessage.Remove(message);
+                    }
+                }
                 return PartialView(listMessage);
             }
             return null;
