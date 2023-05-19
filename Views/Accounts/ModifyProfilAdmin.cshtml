@@ -1,0 +1,16 @@
+@using System.Activities
+@model ChatManager.Models.User
+
+<h2>Profil</h2>
+<hr />
+
+<div class="main">
+    @{
+        Html.RenderPartial("ProfilAdminForm");
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/NotificationsHandler")
+}

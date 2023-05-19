@@ -13,14 +13,24 @@
     </a>
 }
 
-@helper AvatarUser(ChatManager.Models.User user, string avatarClass = "UserMediumAvatar")
+@helper AvatarUser(ChatManager.Models.User user, string avatarClass = "UserMediumAvatar", bool isAdminLink = false)
 {
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     var avatarUrl = Url.Content(user.GetAvatarURL());
-    <div class="userItem">
-        <div class="@avatarClass" style="background: url(@avatarUrl)"></div>
-        <div class="ellipsis">@user.GetFullName()</div>
-    </div>
+    if (isAdminLink && !user.IsAdmin)
+    {
+        <div class="userItem">
+            <div class="@avatarClass" style="background: url(@avatarUrl)"></div>
+            <a id="@user.Id" class="ellipsis SwitchToUser">@user.GetFullName()</a>
+        </div>
+    }
+    else
+    {
+        <div class="userItem">
+            <div class="@avatarClass" style="background: url(@avatarUrl)"></div>
+            <div class="ellipsis">@user.GetFullName()</div>
+        </div>
+    }
 }
 
 @helper UsersCheckList(IEnumerable<ChatManager.Models.User> users, List<int> selectedUsers, string usersCheckListName = "UsersCheckList")
@@ -34,11 +44,11 @@
             string chekBoxId = usersCheckListName + "_" + user.Id.ToString();
             if (selectedUsers.Contains(user.Id))
             {
-                <input type="checkbox" name="@usersCheckListName" id="@chekBoxId" value="@user.Id" checked />
+                <input type="checkbox" name="@usersCheckListName" id="@chekBoxId" value="@user.Id" checked/>
             }
             else
             {
-                <input type="checkbox" name="@usersCheckListName" id="@chekBoxId" value="@user.Id" />
+                <input type="checkbox" name="@usersCheckListName" id="@chekBoxId" value="@user.Id"/>
             }
             <label for="@chekBoxId">
                 @Helper.AvatarUser(user, "UserSmallAvatar")
@@ -56,14 +66,14 @@
         icon = (onLine ? "~/Content/UI-icons/OnLine.png" : "~/Content/UI-icons/Masked.png");
     }
     var iconUrl = Url.Content(icon);
-    <img src="@iconUrl" class="small_icon" />
+    <img src="@iconUrl" class="small_icon"/>
 }
 
 @helper TimeOutIcon()
 {
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     var iconUrl = Url.Content("~/Content/UI-icons/timeout.png");
-    <img src="@iconUrl" class="small_icon" />
+    <img src="@iconUrl" class="small_icon"/>
 }
 
 @helper Checked(bool checkStatus)
@@ -71,7 +81,7 @@
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     if (checkStatus)
     {
-        <img src="@Url.Content("~/Content/UI-icons/Accept.png")" class="small_icon" />
+        <img src="@Url.Content("~/Content/UI-icons/Accept.png")" class="small_icon"/>
     }
     else
     {
@@ -100,7 +110,7 @@
             break;
     }
     var iconUrl = Url.Content(icon);
-    <img src="@iconUrl" class="UserSmallAvatar" title="@tooltip" />
+    <img src="@iconUrl" class="UserSmallAvatar" title="@tooltip"/>
 }
 
 @helper GenderIcon(int genderId)
@@ -120,14 +130,14 @@
             break;
     }
     var iconUrl = Url.Content(icon);
-    <img src="@iconUrl" class="small_icon" />
+    <img src="@iconUrl" class="small_icon"/>
 }
 
 @helper ImageLink(string controller, string action, string imageUrl, string imageClass, string title)
 {
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     <a href="@Url.Action(action, controller)">
-        <img src="@Url.Content(imageUrl)" class="@imageClass" title="@title" />
+        <img src="@Url.Content(imageUrl)" class="@imageClass" title="@title"/>
     </a>
 }
 
@@ -177,7 +187,7 @@
     </div>
 }
 
-@helper IconConfirmCmdWithParam(string controller, string Action, object extraParam, string icon_class, string TooltipMessage, string ToolTipPlacement = "bottom",object partialRefresh = null)
+@helper IconConfirmCmdWithParam(string controller, string Action, object extraParam, string icon_class, string TooltipMessage, string ToolTipPlacement = "bottom", object partialRefresh = null)
 {
     //// http://bootboxjs.com/documentation.html#bb-confirm
     /// To do window.location is considered has a new connexion and cause authentification problems
@@ -202,17 +212,17 @@
             <div class="RadioButton">
                 @if (option.Value == selectedValue.ToString())
                 {
-                    <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" checked />
+                    <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" checked/>
                 }
                 else
                 {
-                    <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" />
+                    <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()"/>
                 }
                 <label for="@id">@option.Text</label>
             </div>
         }
     </div>
-    <br />
+    <br/>
 }
 
 @helper SelectionLists(string controlId, System.Web.Mvc.SelectList selectedItems, System.Web.Mvc.SelectList items, int size = 10)
@@ -304,7 +314,7 @@
     var country = ChatManager.Models.Countries.Get(countryCode);
     if (country != null)
     {
-        <img id="flag" src="@country.Flag" title="@country.Name" style="width:40px;" />
+        <img id="flag" src="@country.Flag" title="@country.Name" style="width:40px;"/>
     }
 }
 
@@ -361,23 +371,23 @@
                 var webp = image + ".webp";
                 var png = image + ".png";
                 var jpg = image + ".jpg";
-                <br />
+                <br/>
                 <picture class="contentImage">
                     <source type="image/webp" srcset="@webp">
                     <source type="image/png" srcset="@png">
                     <img src="@jpg" style="width: auto;">
                 </picture>
-                <br />
+                <br/>
             }
             else
             {
                 if (t.Contains(".jpg") || t.Contains(".jpeg") || t.Contains(".png") || t.Contains(".bmp"))
                 {
-                    <br />
+                    <br/>
                     <a href="@token" target="_blank">
-                        <img class="contentImage" src="@token" alt="" />
+                        <img class="contentImage" src="@token" alt=""/>
                     </a>
-                    <br />
+                    <br/>
                 }
                 else
                 {
@@ -389,11 +399,11 @@
                             youtubeId = youtubeId.Substring(0, youtubeId.IndexOf("&"));
                         }
                         string youtubeThumbnail = "https://i3.ytimg.com/vi/" + youtubeId + "/maxresdefault.jpg";
-                        <br />
+                        <br/>
                         <a href="@token" target="_blank">
-                            <img class="contentImage" src="@youtubeThumbnail" alt="" />
+                            <img class="contentImage" src="@youtubeThumbnail" alt=""/>
                         </a>
-                        <br />
+                        <br/>
                     }
                     else
                     {
@@ -412,7 +422,7 @@
         {
             if (t.Contains("[hr]"))
             {
-                <hr />
+                <hr/>
             }
             else
             {
@@ -422,14 +432,15 @@
     }
 }
 
-@helper UserRow(User mainUser, User otherUser,Object partialRefresh = null)
+@helper UserRow(User mainUser, User otherUser, Object partialRefresh = null)
 {
     <div class="friendContainer" style="font-size: 14px">
         @AvatarUser(otherUser)
         @OnLineStatusIcon(OnlineUsers.IsOnLine(otherUser.Id), otherUser.Blocked)
-        @IconRelationButton(mainUser, otherUser,partialRefresh)
+        @IconRelationButton(mainUser, otherUser, partialRefresh)
     </div>
 }
+
 @helper UserRowChat(User mainUser, User otherUser)
 {
     string avatarClass = "UserMediumAvatar";
@@ -441,48 +452,48 @@
 
     </div>
 }
+
 @helper convUserChat(User user)
 {
-
     <h4>Conversation avec </h4>
     <div>@AvatarUser(user)</div>
-    
 }
 
 //TODO
 
-@helper IconRelationButton(User mainUser, User otherUser,Object partialRefresh = null)
-{   
+@helper IconRelationButton(User mainUser, User otherUser, Object partialRefresh = null)
+{
     switch (mainUser.GetStatus(otherUser))
     {
         case FriendshipStatus.Neutral:
             //@IconConfirmAjaxCmd("Friendships","sendFriendRequest","da green fa-plus-circle friendButton","Cliquez ici pour ajouter un ami")
-            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser,"da green fa-plus-circle friendButton","Cliquez ici pour ajouter un ami(e)","bottom",partialRefresh);
+            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser, "da green fa-plus-circle friendButton", "Cliquez ici pour ajouter un ami(e)", "bottom", partialRefresh)
+            ;
             break;
         case FriendshipStatus.RequestReceive:
-            @IconConfirmCmdWithParam("Friendships", "AcceptFriendRequest", otherUser, "da green fa-check friendButton", "Cliquez ici pour accepter la demande d'ami(e)","bottom")
-            @IconConfirmCmdWithParam("Friendships", "DeclineFriendRequest", otherUser, "da red fa-times friendButton", "Cliquez ici pour refuser la demande d'ami(e)","bottom")
+            @IconConfirmCmdWithParam("Friendships", "AcceptFriendRequest", otherUser, "da green fa-check friendButton", "Cliquez ici pour accepter la demande d'ami(e)", "bottom")
+            @IconConfirmCmdWithParam("Friendships", "DeclineFriendRequest", otherUser, "da red fa-times friendButton", "Cliquez ici pour refuser la demande d'ami(e)", "bottom")
             break;
         case FriendshipStatus.OtherDecline:
             @Icon("Friendships", "da red fa-times-circle", "Demande refuser")
             break;
         case FriendshipStatus.IDecline:
             @Icon("Friendships", "da red fa-times-circle", "Demande refuser")
-            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser, "da green fa-plus-circle friendButton", "Cliquez ici pour ajouter un ami(e)","bottom")
+            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser, "da green fa-plus-circle friendButton", "Cliquez ici pour ajouter un ami(e)", "bottom")
             break;
         case FriendshipStatus.RequestSend:
             @Icon("Friendships", "da green fa-clock-o", "Demande en attente")
-            @IconConfirmCmdWithParam("Friendships", "RemoveRequest", otherUser, "da red fa-times friendButton", "Cliquez ici pour enlever la demande","bottom")
+            @IconConfirmCmdWithParam("Friendships", "RemoveRequest", otherUser, "da red fa-times friendButton", "Cliquez ici pour enlever la demande", "bottom")
             break;
         case FriendshipStatus.Friend:
             @Icon("Friendships", "da green fa-check-circle", "Vous êtes ami(e)s")
-            @IconConfirmCmdWithParam("Friendships", "RemoveFriend", otherUser, "da red fa-times friendButton", "Cliquez ici pour ne plus être ami","bottom")
+            @IconConfirmCmdWithParam("Friendships", "RemoveFriend", otherUser, "da red fa-times friendButton", "Cliquez ici pour ne plus être ami", "bottom")
             break;
         case FriendshipStatus.Blocked:
             @Icon("Friendships", "da red fa-ban", "Cet usager est bloqué(e) par les administrateurs")
             break;
         default:
-            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser, "da green fa-plus-circle friendButton", "Cliquez ici pour ajouter un ami(e)","bottom")
+            @IconConfirmCmdWithParam("Friendships", "SendFriendRequest", otherUser, "da green fa-plus-circle friendButton", "Cliquez ici pour ajouter un ami(e)", "bottom")
             break;
     }
 }

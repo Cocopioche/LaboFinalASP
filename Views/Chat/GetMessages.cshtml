@@ -13,7 +13,6 @@
     @if (Session["CurrentTarget"] != null)
     {
         User user = (ChatManager.Models.User)Session["CurrentTarget"];
-       
         @Helper.convUserChat(user);
 
     }

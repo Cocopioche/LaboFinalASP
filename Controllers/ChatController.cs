@@ -45,18 +45,23 @@ namespace ChatManager.Controllers
         }
         public ActionResult GetMessages(bool forceRefresh = false)
         {
-            if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
+            if (CurrentTarget != null)
             {
-                List<Message> listMessage = DB.Messages.ToList();
-                foreach (var message in listMessage)
+                if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
                 {
-                    if (message.IdUserOther != CurrentTarget.Id)
+                    List<Message> listMessage = DB.Messages.ToList();
+                    foreach (var message in listMessage)
                     {
-                        listMessage.Remove(message);
+                        if (message.IdUserOther != CurrentTarget.Id)
+                        {
+                            listMessage.Remove(message);
+                        }
                     }
+
+                    return PartialView(listMessage);
                 }
-                return PartialView(listMessage);
             }
+
             return null;
         }
         public ActionResult SetCurrentTarget(int userId)
