@@ -19,6 +19,7 @@ namespace ChatManager.Models
             IdUserMain = idUserMain;
             IdUserOther = idUserOther;
             Text = text;
+            PostingTime = DateTime.Now;
         }
     }
 }
