@@ -198,6 +198,7 @@ namespace ChatManager.Models
 
         }
 
-        #endregion
-    }
+        
+            #endregion
+        }
 }

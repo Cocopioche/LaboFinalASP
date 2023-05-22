@@ -9,18 +9,42 @@
 
 @if (Model != null)
 {
+    <table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Helper.GetUser(item.IdUserMain)
+                    
+
+                </td>
+                <td>
+                    @Helper.GetUser(item.IdUserOther)
+                </td>
+                <td>
+                    <span class="icon fa fa-times smallerIcon" id="delete_@item.Id" title="Effacer ce massage" data-placement="bottom"></span>
+
+                </td>
+                <td>
+                    <br />
+                    <div class="sent" title="@item.PostingTime.Hour">
+
+                        <span class="token"> @Helper.ParseContent(@item.Text)</span>
+
+                    </div>
+                </td>
+            </tr>
+        
 
 
-    foreach (var item in Model)
-    {
-
-        <div class="sent" title="@item.PostingTime.Hour" id="sent_@item.Id">
-            <span class="token"> @Helper.ParseContent(@item.Text)</span>
-
-        </div>
+         
 
 
 
-    }
+        }
+
+    </table>
+
+    
 
 }

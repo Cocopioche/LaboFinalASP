@@ -106,11 +106,12 @@ namespace ChatManager.Controllers
             DB.Messages.Update(message2);
             return PartialView(null);
         }
+        [OnlineUsers.UserAccess]
         public ActionResult AdminChat()
         {
             List<Message> listMessageMain = DB.Messages.ToList();
             return PartialView(listMessageMain);
         }
-
+        
     }
 }

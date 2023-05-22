@@ -59,8 +59,8 @@
 
         let friendsPannelUpdater = new PartialRefresh("/Chat/GetFriendList", "friendshipsListContainer", 5, UpdateFriendsCallback);
         let messagesPanelUpdater = new PartialRefresh("/Chat/GetMessages", "messagesPanel", 5, UpdateMessagesCallback);
-       // let AdminPanelUpdater = new PartialRefresh("/Chat/AdminChat", "adminPanel", 5, UpdateAdminCallback);
-         let Admin = new PartialRefresh("@Url.Action("AdminChat")", "adminPanel", 5);
+        // let AdminPanelUpdater = new PartialRefresh("/Chat/AdminChat", "adminPanel", 5, UpdateAdminCallback);
+        let Admin = new PartialRefresh( "/Chat/AdminChat", "adminPanel", 1, UpdateAdminCallback);
 
         let currentTargetId = 0;
         if (currentTargetId == 0)
@@ -175,6 +175,14 @@
             sendMessage();
         })
 
+        function UpdateAdminCallback() {
+            var message_id = $(this).attr("id").split("_")[1];
+            $("#delete_" + message_id).click(function () {
+               
+                Admin.confirmedCommand("Effacer ce message", "/Chat/Delete/" + message_id);
+                messagesPanelUpdater.refresh(true);
+            })
+        }
 
 
 
