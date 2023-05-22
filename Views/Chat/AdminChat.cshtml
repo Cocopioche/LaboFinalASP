@@ -1,0 +1,26 @@
+﻿@using ChatManager.Models
+@model IEnumerable<ChatManager.Models.Message>
+@{
+    ViewBag.Title = "Admin";
+
+}
+
+<h2>Conversations</h2>
+
+@if (Model != null)
+{
+
+
+    foreach (var item in Model)
+    {
+
+        <div class="sent" title="@item.PostingTime.Hour" id="sent_@item.Id">
+            <span class="token"> @Helper.ParseContent(@item.Text)</span>
+
+        </div>
+
+
+
+    }
+
+}

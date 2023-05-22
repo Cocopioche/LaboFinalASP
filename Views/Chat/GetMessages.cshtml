@@ -44,7 +44,7 @@
                 if (item.IdUserOther == user.Id)
                 {
 
-                    <div class="messageTime">@item.PostingTime</div>
+                    <div class="messageTime">@Helper.When(item.PostingTime)</div>
                     <div class="sentLayout">
                         <div class="sent" title="@item.PostingTime.Hour" id="sent_@item.Id">
                             <span class="token"> @Helper.ParseContent(@item.Text)</span>

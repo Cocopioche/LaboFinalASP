@@ -3,54 +3,65 @@
 
 @{
 
+    if (OnlineUsers.GetSessionUser().IsAdmin)
+    {
+        <div class="adminPanel" id="adminPanel" titre="adminzone"></div>
 
-    <div style="align-items: center; display: grid; grid-template-columns: 65px auto; ">
-        <img src="~/favicon.png" style=" width: 56px;" />
-        <h3>Salle de discussions</h3>
-    </div>
-    <hr />
-
-    <div class="main">
-
-        <div style=" display: grid; grid-template-columns: 60px auto; column-gap: 10px;">
-
-            <div class="friendsListContainer" id="friendshipsListContainer" titre="Cliquez sur un de vos amis pour clavarder avec lui ...">
-
-
-            </div>
-
-            <div>
-                <div class="messagesPanel" id="messagesPanel" title="selectionner un amis">
-
-
-
-                </div>
-                
-                <div class="sendMessageLayout">
-                    <input id="message" class="form-control" style="width: 100% !important; max-width: 1000px !important;" placeholder="Tapez votre message ici ..." />
-                    <span id="send" class="icon fa fa-paper-plane" titre="Envoyer" data-placement="bottom"></span>
-                </div>
-
-            </div>
-
+    }
+    else
+    {
+        <div style="align-items: center; display: grid; grid-template-columns: 65px auto; ">
+            <img src="~/favicon.png" style=" width: 56px;" />
+            <h3>Salle de discussions</h3>
         </div>
-    </div>
+        <hr />
+
+
+
+        <div class="main">
+
+            <div style=" display: grid; grid-template-columns: 60px auto; column-gap: 10px;">
+
+                <div class="friendsListContainer" id="friendshipsListContainer" titre="Cliquez sur un de vos amis pour clavarder avec lui ...">
+
+
+                </div>
+
+                <div>
+                    <div class="messagesPanel" id="messagesPanel" title="selectionner un amis">
+
+
+
+                    </div>
+
+                    <div class="sendMessageLayout">
+                        <input id="message" class="form-control" style="width: 100% !important; max-width: 1000px !important;" placeholder="Tapez votre message ici ..." />
+                        <span id="send" class="icon fa fa-paper-plane" titre="Envoyer" data-placement="bottom"></span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    }
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval");
-    @Scripts.Render("~/bundles/jquery");
-    @Scripts.Render("~/bundles/bootstrap");
-    @Scripts.Render("~/bundles/NotificationsHandler");
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/NotificationsHandler")
 
     <script defer>
 
         //var CurrentTargetId = ViewBag.CurrentTargetId;
-      
+
 
         let friendsPannelUpdater = new PartialRefresh("/Chat/GetFriendList", "friendshipsListContainer", 5, UpdateFriendsCallback);
         let messagesPanelUpdater = new PartialRefresh("/Chat/GetMessages", "messagesPanel", 5, UpdateMessagesCallback);
-        
+       // let AdminPanelUpdater = new PartialRefresh("/Chat/AdminChat", "adminPanel", 5, UpdateAdminCallback);
+         let Admin = new PartialRefresh("@Url.Action("AdminChat")", "adminPanel", 5);
+
         let currentTargetId = 0;
         if (currentTargetId == 0)
             $("#sendMessagePanel").hide();
@@ -72,16 +83,16 @@
 
                 ajaxActionCall("/Chat/SetCurrentTarget?userId=" + userId, () => {
                     messagesPanelUpdater.refresh(true);
-                    
+
                      friendsPannelUpdater.refresh(true);
                  });
                 $("#sendMessagePanel").show();
             });
         }
         let editing = false;
-        
+
         let targetTyping = false;
-     
+
         function setEditing(value) {
             editing = value;
             if (editing) {
@@ -93,7 +104,7 @@
                 $("#sendMessagePanel").show()
             }
         }
-        
+
         function sendMessage() {
             var message = $('#message').val();
             $('#message').val("");
@@ -107,8 +118,8 @@
                 sendMessage();
             }
         });
-        
-       
+
+
         function UpdateMessagesCallback() {
             $("#typing").hide();
             $(".editMessage").hide();
@@ -121,7 +132,7 @@
                 event.stopPropagation();
             })
             $(".sent").click(function () {
-               
+
                 if(!editing) {
                    // $('.sentLayout').removeClass('sentLayout').addClass('editMessage');
                     //$(this).removeClass('editMessage').addClass('sentLayout');
@@ -158,7 +169,7 @@
             });
         }
 
-        
+
 
         $("#send").click(function () {
             sendMessage();
