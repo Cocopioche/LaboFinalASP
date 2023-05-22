@@ -29,15 +29,22 @@
 <div>
     @if (Model != null)
     {
+        
+
         foreach (var item in Model)
         {
+
+
+
             User user = (ChatManager.Models.User)Session["CurrentTarget"];
             if (Session["CurrentTarget"] != null)
             {
+               
+
                 if (item.IdUserOther == user.Id)
                 {
-                    
 
+                    <div class="messageTime">@item.PostingTime</div>
                     <div class="sentLayout">
                         <div class="sent" title="@item.PostingTime.Hour" id="sent_@item.Id">
                             <span class="token"> @Helper.ParseContent(@item.Text)</span>
@@ -47,8 +54,8 @@
                     </div>
                     <div class="editMessage" id="edit_@item.Id">
                         <input id="@item.Id" value="@item.Text" class="sent form-control">
-                        <span class="icon fa fa-check smallerIcon" title="Modifier ce massage" data-placement="bottom"></span>
-                        <span class="icon fa fa-times smallerIcon" title="Effacer ce massage" data-placement="bottom"></span>
+                        <span class="icon fa fa-check smallerIcon" id="update_@item.Id" title="Modifier ce massage" data-placement="bottom"></span>
+                        <span class="icon fa fa-times smallerIcon" id="delete_@item.Id" title="Effacer ce massage" data-placement="bottom"></span>
                     </div>
 
 

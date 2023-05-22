@@ -78,11 +78,7 @@ namespace ChatManager.Controllers
 
         public ActionResult Send(string message)
         {
-            // Utilisez la valeur du message ici
-
-            // ...
-
-            //DB.Messages.Add()
+          
             User currentUser = OnlineUsers.GetSessionUser();
             User envoieUser = CurrentTarget;
             Console.WriteLine(currentUser);
@@ -97,6 +93,20 @@ namespace ChatManager.Controllers
 
             return null;
         }
+        public ActionResult Delete(int id)
+        {
+            DB.Messages.Delete(id);
+            return PartialView(null); 
+        }
+        
+        public ActionResult Update(int id, string message)
+        {
+            Message message2 = new Message(id,  OnlineUsers.GetSessionUser().Id, CurrentTarget.Id, message);
+
+            DB.Messages.Update(message2);
+            return PartialView(null);
+        }
+
 
     }
 }

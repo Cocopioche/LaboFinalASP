@@ -21,5 +21,13 @@ namespace ChatManager.Models
             Text = text;
             PostingTime = DateTime.Now;
         }
+        public Message( int id ,int idUserMain, int idUserOther, string text)
+        {
+            Id = id;
+            IdUserMain = idUserMain;
+            IdUserOther = idUserOther;
+            Text = text;
+            PostingTime = DateTime.Now;
+        }
     }
 }
