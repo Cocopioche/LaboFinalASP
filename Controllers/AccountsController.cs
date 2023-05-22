@@ -456,6 +456,9 @@ namespace ChatManager.Controllers
             user.CreationDate = currentUser.CreationDate;
             user.GenderId = currentUser.GenderId;
             user.Password = currentUser.Password;
+            user.ConfirmPassword = currentUser.Password;
+            ModelState.Clear();
+            TryValidateModel(user);
             if (ModelState.IsValid)
             {
                 if (DB.Users.Update(user))
