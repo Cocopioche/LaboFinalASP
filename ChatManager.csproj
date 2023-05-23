@@ -196,6 +196,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images_Data\Loading_icon.gif" />
     <Content Include="Images_Data\No_Image.png" />
+    <Content Include="Images_Data\User_Avatars\04536abb-6483-49d9-a8c1-3b38fcbbefdb.Jpeg" />
     <Content Include="Images_Data\User_Avatars\126598e6-49af-44b0-bb97-d085087ddd2e.Jpeg" />
     <Content Include="Images_Data\User_Avatars\3fd2ac58-4ec2-4598-9cfb-de28783accd5.Jpeg" />
     <Content Include="Images_Data\User_Avatars\4491ed49-2848-4618-b131-7036cb07126f.Jpeg" />
@@ -279,7 +280,6 @@
     <Content Include="Views\Friendships\Friendships.cshtml" />
     <Content Include="Views\Chat\GetFriendList.cshtml" />
     <Content Include="Views\Chat\GetMessages.cshtml" />
-    <Content Include="Views\Chat\SetCurrentTarget.cshtml" />
     <Content Include="Views\Chat\AdminChat.cshtml" />
   </ItemGroup>
   <ItemGroup />

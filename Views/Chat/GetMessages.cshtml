@@ -36,12 +36,12 @@
 
 
 
-            User user = (ChatManager.Models.User)Session["CurrentTarget"];
+            User otherUser = (ChatManager.Models.User)Session["CurrentTarget"];
             if (Session["CurrentTarget"] != null)
             {
                
 
-                if (item.IdUserOther == user.Id)
+                if (item.IdUserMain == OnlineUsers.GetSessionUser().Id)
                 {
 
                     <div class="messageTime">@Helper.When(item.PostingTime)</div>
@@ -60,11 +60,12 @@
 
 
                 }
-                else if (item.IdUserMain == OnlineUsers.GetSessionUser().Id)
+                else
                 {
+                    <div class="messageTime">@Helper.When(item.PostingTime)</div>
                     <div class="receivedLayout">
                         <div class="received">
-                            <span> @item.Text</span>
+                            <span> @Helper.ParseContent(@item.Text)</span>
 
                         </div>
 

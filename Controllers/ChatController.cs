@@ -12,25 +12,19 @@ namespace ChatManager.Controllers
         // GET: Chat
         private User CurrentTarget
         {
-            get
-            {
-                return (User)Session["CurrentTarget"];
-            }
-            set
-            {
-                Session["CurrentTarget"] = value;
-            }
+            get { return (User)Session["CurrentTarget"]; }
+            set { Session["CurrentTarget"] = value; }
         }
+
         [OnlineUsers.UserAccess]
         public ActionResult Index()
         {
-
             //return View(model);
 
 
             return View();
-
         }
+
         public ActionResult GetFriendList(bool forceRefresh = false)
         {
             if (forceRefresh || DB.Friendships.HasChanged)
@@ -41,35 +35,36 @@ namespace ChatManager.Controllers
 
                 return PartialView(listUser);
             }
+
             return null;
         }
+
         [OnlineUsers.UserAccess(false)]
         public ActionResult GetMessages(bool forceRefresh = false)
         {
             if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
             {
-
                 if (CurrentTarget != null)
                 {
-                  
                     List<Message> listMessageMain = DB.Messages.ToList();
                     List<Message> listMessage = new List<Message>();
                     foreach (var message in listMessageMain)
                     {
-                      if (message.IdUserOther == CurrentTarget.Id)
-                      {
+                        if (message.IdUserOther == CurrentTarget.Id && message.IdUserMain == OnlineUsers.GetSessionUser().Id || message.IdUserOther == OnlineUsers.GetSessionUser().Id && message.IdUserMain == CurrentTarget.Id)
+                        {
                             listMessage.Add(message);
-                       }
+                        }
                     }
+
                     return PartialView(listMessage);
                 }
-                else
-                    return PartialView(null);
 
+                return PartialView(null);
             }
 
             return null;
         }
+
         public ActionResult SetCurrentTarget(int userId)
         {
             CurrentTarget = DB.Users.Get(userId);
@@ -78,7 +73,6 @@ namespace ChatManager.Controllers
 
         public ActionResult Send(string message)
         {
-          
             User currentUser = OnlineUsers.GetSessionUser();
             User envoieUser = CurrentTarget;
             Console.WriteLine(currentUser);
@@ -97,17 +91,17 @@ namespace ChatManager.Controllers
         public ActionResult Delete(int id)
         {
             DB.Messages.Delete(id);
-            return PartialView(null); 
+            return PartialView(null);
         }
-        
+
         public ActionResult Update(int id, string message)
         {
-            Message message2 = new Message(id,  OnlineUsers.GetSessionUser().Id, CurrentTarget.Id, message);
+            Message message2 = new Message(id, OnlineUsers.GetSessionUser().Id, CurrentTarget.Id, message);
 
             DB.Messages.Update(message2);
             return PartialView(null);
         }
-        
+
         public ActionResult AdminChat(bool forceRefresh = false)
         {
             if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
@@ -115,8 +109,8 @@ namespace ChatManager.Controllers
                 List<Message> listMessageMain = DB.Messages.ToList();
                 return PartialView(listMessageMain);
             }
+
             return null;
         }
-        
     }
 }
