@@ -93,6 +93,7 @@ namespace ChatManager.Controllers
 
             return null;
         }
+
         public ActionResult Delete(int id)
         {
             DB.Messages.Delete(id);
@@ -106,11 +107,15 @@ namespace ChatManager.Controllers
             DB.Messages.Update(message2);
             return PartialView(null);
         }
-        [OnlineUsers.UserAccess]
-        public ActionResult AdminChat()
+        
+        public ActionResult AdminChat(bool forceRefresh = false)
         {
-            List<Message> listMessageMain = DB.Messages.ToList();
-            return PartialView(listMessageMain);
+            if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
+            {
+                List<Message> listMessageMain = DB.Messages.ToList();
+                return PartialView(listMessageMain);
+            }
+            return null;
         }
         
     }
