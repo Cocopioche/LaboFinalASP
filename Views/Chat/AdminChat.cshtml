@@ -24,8 +24,7 @@
                 <td>
                     
                     <div>
-                        <input id="messageAdmin" class="form-control"  value="@item.Id" type="hidden" />
-                        <span class="icon fa fa-times smallerIcon" id="delete" title="Effacer ce massage" data-placement="bottom"></span>
+                        @Helper.IconConfirmCmdWithParam("Chat","Delete",new {id = item.Id},"icon fa fa-times","Supprimer")
                     </div>
 
                 </td>

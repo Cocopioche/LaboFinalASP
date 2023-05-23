@@ -52,7 +52,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/NotificationsHandler")
 
-<script defer>
+    <script defer>
 
         //var CurrentTargetId = ViewBag.CurrentTargetId;
 
@@ -182,21 +182,6 @@
        
 
         function UpdateAdminCallback() {
-
-
-            $("#delete").click(function () {
-                console.log("delete");
-               
-                var messageAdmin = $('#messageAdmin').val();
-                $('#message').val("");
-                console.log(messageAdmin);
-                
-                //messagesPanelUpdater.confirmedCommand("Effacer ce message", "/Chat/Delete/" + messageAdmin);
-              
-                
-               
-            })
-
 
         }
 

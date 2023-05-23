@@ -74,7 +74,8 @@ namespace ChatManager.Controllers
                             ListeMessage = listMessage;
                         }
                     }
-
+                    //order liste by PostingTime Order
+                    listMessage.Sort((x, y) => x.PostingTime.CompareTo(y.PostingTime));
                     return PartialView(listMessage);
                 }
 
@@ -127,6 +128,7 @@ namespace ChatManager.Controllers
             if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
             {
                 List<Message> listMessageMain = DB.Messages.ToList();
+                listMessageMain.Sort((x, y) => y.PostingTime.CompareTo(x.PostingTime));
                 return PartialView(listMessageMain);
             }
 
