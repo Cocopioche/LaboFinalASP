@@ -99,7 +99,7 @@ namespace ChatManager.Controllers
             Console.WriteLine(envoieUser);
             Console.WriteLine(message);
 
-            OnlineUsers.AddNotification(currentUser.Id, $" nouveau message");
+            OnlineUsers.AddNotification(envoieUser.Id, $" nouveau message");
 
             Message message2 = new Message(currentUser.Id, envoieUser.Id, message);
             DB.Messages.Add(message2);
@@ -107,6 +107,7 @@ namespace ChatManager.Controllers
 
             return null;
         }
+        
         [OnlineUsers.UserAccess(true)]
         public ActionResult Delete(int id)
         {
