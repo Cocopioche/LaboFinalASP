@@ -108,7 +108,7 @@ namespace ChatManager.Controllers
             if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
             {
                 List<Message> listMessageMain = DB.Messages.ToList();
-                listMessageMain.Reverse();
+                listMessageMain.Sort((x, y) => x.PostingTime.CompareTo(y.PostingTime));
                 return PartialView(listMessageMain);
             }
 
