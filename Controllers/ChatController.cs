@@ -131,12 +131,11 @@ namespace ChatManager.Controllers
 
         public ActionResult AdminChat(bool forceRefresh = false)
         {
-            if (forceRefresh || DB.Friendships.HasChanged || DB.Messages.HasChanged)
-            {
-                List<Message> listMessageMain = DB.Messages.ToList();
-                listMessageMain.Sort((x, y) => y.PostingTime.CompareTo(x.PostingTime));
-                return PartialView(listMessageMain);
-            }
+            
+            List<Message> listMessageMain = DB.Messages.ToList();
+            listMessageMain.Sort((x, y) => y.PostingTime.CompareTo(x.PostingTime));
+            return PartialView(listMessageMain);
+            
 
             return null;
         }
