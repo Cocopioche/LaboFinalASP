@@ -15,6 +15,24 @@ namespace ChatManager.Controllers
             get { return (User)Session["CurrentTarget"]; }
             set { Session["CurrentTarget"] = value; }
         }
+        public List<Message> ListeMessage
+        {
+            get
+            {
+                List<Message> listMessageMain = DB.Messages.ToList();
+                List<Message> listMessage = new List<Message>();
+                foreach (var message in listMessageMain)
+                {
+                    if (message.IdUserOther == CurrentTarget.Id && message.IdUserMain == OnlineUsers.GetSessionUser().Id || message.IdUserOther == OnlineUsers.GetSessionUser().Id && message.IdUserMain == CurrentTarget.Id)
+                    {
+                        listMessage.Add(message);
+                        ListeMessage = listMessage;
+                    }
+                }
+                return listMessage;
+            }
+            set { Session["ListeMessage"] = value; }
+        }
 
         [OnlineUsers.UserAccess]
         public ActionResult Index()
@@ -53,6 +71,7 @@ namespace ChatManager.Controllers
                         if (message.IdUserOther == CurrentTarget.Id && message.IdUserMain == OnlineUsers.GetSessionUser().Id || message.IdUserOther == OnlineUsers.GetSessionUser().Id && message.IdUserMain == CurrentTarget.Id)
                         {
                             listMessage.Add(message);
+                            ListeMessage = listMessage;
                         }
                     }
 
@@ -87,19 +106,20 @@ namespace ChatManager.Controllers
 
             return null;
         }
-
+        [OnlineUsers.UserAccess(true)]
         public ActionResult Delete(int id)
         {
             DB.Messages.Delete(id);
-            return PartialView(null);
+            
+            return PartialView(ListeMessage);
         }
-
+        [OnlineUsers.UserAccess(true)]
         public ActionResult Update(int id, string message)
         {
             Message message2 = new Message(id, OnlineUsers.GetSessionUser().Id, CurrentTarget.Id, message);
 
             DB.Messages.Update(message2);
-            return PartialView(null);
+            return PartialView(ListeMessage);
         }
 
         public ActionResult AdminChat(bool forceRefresh = false)

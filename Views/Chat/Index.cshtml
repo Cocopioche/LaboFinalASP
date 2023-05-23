@@ -28,7 +28,7 @@
                 </div>
 
                 <div>
-                    <div class="messagesPanel" id="messagesPanel" title="selectionner un amis">
+                    <div class="messagesPanel" id="messagesPanel" title="">
 
 
 
@@ -123,7 +123,7 @@
         function UpdateMessagesCallback() {
             $("#typing").hide();
             $(".editMessage").hide();
-            $("#messagesPanel").scrollTop($("#messagesPanel")[0]);
+            $("#messagesPanel").scrollTop($("#messagesPanel")[0].scrollHeight + 100);
 
             $(".contentImage").click(function (event) {
                 event.stopPropagation();
@@ -143,12 +143,17 @@
                     $("#sent_" + message_id).hide();
                     $("#delete_" + message_id).click(function () {
                         setEditing(false);
+                        
                         messagesPanelUpdater.confirmedCommand("Effacer ce message", "/Chat/Delete/" + message_id);
+                        messagesPanelUpdater.refresh(true);
+                        
                     })
                     $("#update_" + message_id).click(function () {
                         setEditing(false);
                         var message = $("#" + message_id).val();
                         messagesPanelUpdater.command("/Chat/Update?id=" + message_id + "&message=" + message);
+                        messagesPanelUpdater.refresh(true);
+
                     })
                     $('#' + message_id).keypress(function (event) {
                         var keycode = (event.keyCode ? event.keyCode : event.which);
