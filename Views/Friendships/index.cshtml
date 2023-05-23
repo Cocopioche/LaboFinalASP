@@ -65,7 +65,7 @@
             let friendships = new PartialRefresh("@Url.Action("Friendships")", "friendshipsListContainer", 5);
            
             $(document).ajaxSuccess(function(event, xhr, settings) {
-                if (!settings.url.includes("/Friendships/Index") && !settings.url.includes("/Friendships/Friendships")) {
+                if (!settings.url.includes("/Friendships/Index") && !settings.url.includes("/Friendships/Friendships") && !settings.url.includes("/Notification")) {
                     friendships.refresh(true)
                 }
                 applyFilter()

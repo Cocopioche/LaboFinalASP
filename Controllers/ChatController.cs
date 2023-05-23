@@ -95,6 +95,12 @@ namespace ChatManager.Controllers
             return PartialView(null);
         }
 
+        // [OnlineUsers.AdminAccess]
+        public void DeleteAdmin(int id)
+        {
+            DB.Messages.Delete(id);
+        }
+
         public ActionResult Update(int id, string message)
         {
             Message message2 = new Message(id, OnlineUsers.GetSessionUser().Id, CurrentTarget.Id, message);

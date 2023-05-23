@@ -177,11 +177,15 @@
        
 
         function UpdateAdminCallback() {
-
+            
         }
 
 
-
+        $(document).ajaxSuccess(function(event, xhr, settings) {
+            if (settings.url.includes("/Chat/DeleteAdmin") || settings.url.includes("/Chat/Delete")) {
+                Admin.refresh(true)
+            }
+        });
 
 
 </script>
