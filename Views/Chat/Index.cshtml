@@ -190,6 +190,9 @@
             if (settings.url.includes("/Chat/DeleteAdmin") || settings.url.includes("/Chat/Delete")) {
                 Admin.refresh(true)
             }
+            if (settings.url.includes("/Chat/Update")) {
+                messagesPanelUpdater.refresh(true)
+            }
         });
 
 
