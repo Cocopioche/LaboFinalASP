@@ -22,7 +22,11 @@
                     @Helper.GetUser(item.IdUserOther)
                 </td>
                 <td>
-                    <span class="icon fa fa-times smallerIcon" id="delete_@item.Id" title="Effacer ce massage" data-placement="bottom"></span>
+                    
+                    <div class="DeleteMessageLayout">
+                        <input id="messageAdmin" class="form-control" style="width: 100% !important; max-width: 1000px !important;" value="@item.Id" type="hidden" />
+                        <span class="icon fa fa-times smallerIcon" id="delete" title="Effacer ce massage" data-placement="bottom"></span>
+                    </div>
 
                 </td>
                 <td>
@@ -35,12 +39,6 @@
                 </td>
             </tr>
         
-
-
-         
-
-
-
         }
 
     </table>
