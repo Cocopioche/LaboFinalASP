@@ -420,7 +420,7 @@ namespace ChatManager.Controllers
             {
                 DB.Friendships.Delete(friendship.Id);
             }
-            var Message = DB.Messages.ToList().Where(m => m.IdUserOther == userid || m.IdUserOther == userid);
+            var Message = DB.Messages.ToList().Where(m => m.IdUserOther == userid || m.IdUserMain == userid).ToList();
             foreach (var message in Message)
             {
                 DB.Messages.Delete(message.Id);
