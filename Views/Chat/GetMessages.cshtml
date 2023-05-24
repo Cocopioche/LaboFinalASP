@@ -63,7 +63,7 @@
                 else
                 {
                     <div class="messageTime">@Helper.When(item.PostingTime)</div>
-                    <div class="receivedLayout">
+                    <div class="receivedLayout" title="@item.PostingTime.Hour:@item.PostingTime.Minute" utc="-4">
                         <div class="received">
                             <span> @Helper.ParseContent(@item.Text)</span>
 
