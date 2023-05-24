@@ -425,6 +425,7 @@ namespace ChatManager.Controllers
             {
                 DB.Messages.Delete(message.Id);
             }
+            DB.Users.Delete(userid);
             return Json(DB.Users.Delete(userid), JsonRequestBehavior.AllowGet);
         }
 
