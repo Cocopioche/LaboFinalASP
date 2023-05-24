@@ -196,8 +196,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images_Data\Loading_icon.gif" />
     <Content Include="Images_Data\No_Image.png" />
-    <Content Include="Images_Data\User_Avatars\04536abb-6483-49d9-a8c1-3b38fcbbefdb.Jpeg" />
-    <Content Include="Images_Data\User_Avatars\126598e6-49af-44b0-bb97-d085087ddd2e.Jpeg" />
     <Content Include="Images_Data\User_Avatars\3fd2ac58-4ec2-4598-9cfb-de28783accd5.Jpeg" />
     <Content Include="Images_Data\User_Avatars\4491ed49-2848-4618-b131-7036cb07126f.Jpeg" />
     <Content Include="Images_Data\User_Avatars\502243d8-305d-4e88-94e6-b7d853cfcbca.Jpeg" />
@@ -205,8 +203,6 @@
     <Content Include="Images_Data\User_Avatars\89ca9b58-9e3d-4c21-bb08-369f8f04b2fb.Jpeg" />
     <Content Include="Images_Data\User_Avatars\8e412968-fc77-41ee-849f-d9a7cbcdfb43.Jpeg" />
     <Content Include="Images_Data\User_Avatars\99dc09c9-9cf7-44f5-938b-b9ccc90e22a0.Jpeg" />
-    <Content Include="Images_Data\User_Avatars\d7aa809c-c2a3-4ffd-91fc-f84792096d9c.Jpeg" />
-    <Content Include="Images_Data\User_Avatars\e898b65f-eb4a-4992-9a1f-7e08b5212b5b.Jpeg" />
     <Content Include="Images_Data\User_Avatars\no_avatar.png" />
     <Content Include="info-icon.png" />
     <Content Include="Scripts\bootbox.js" />
