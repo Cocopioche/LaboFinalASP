@@ -126,7 +126,7 @@ namespace ChatManager.Controllers
             Message message2 = new Message(id, OnlineUsers.GetSessionUser().Id, CurrentTarget.Id, message);
 
             DB.Messages.Update(message2);
-            return PartialView(ListeMessage);
+            return PartialView();
         }
 
         public ActionResult AdminChat(bool forceRefresh = false)

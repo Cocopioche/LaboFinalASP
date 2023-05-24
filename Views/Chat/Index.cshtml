@@ -145,14 +145,14 @@
                         setEditing(false);
                         
                         messagesPanelUpdater.confirmedCommand("Effacer ce message", "/Chat/Delete/" + message_id);
-                        messagesPanelUpdater.refresh(true);
+                      
                         
                     })
                     $("#update_" + message_id).click(function () {
                         setEditing(false);
                         var message = $("#" + message_id).val();
                         messagesPanelUpdater.command("/Chat/Update?id=" + message_id + "&message=" + message);
-                        messagesPanelUpdater.refresh(true);
+                        
 
                     })
                     $('#' + message_id).keypress(function (event) {
