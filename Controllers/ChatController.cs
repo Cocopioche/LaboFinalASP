@@ -27,8 +27,10 @@ namespace ChatManager.Controllers
                     {
                         listMessage.Add(message);
                         ListeMessage = listMessage;
+                        
                     }
                 }
+                listMessage.Sort((x, y) => x.PostingTime.CompareTo(y.PostingTime));
                 return listMessage;
             }
             set { Session["ListeMessage"] = value; }
