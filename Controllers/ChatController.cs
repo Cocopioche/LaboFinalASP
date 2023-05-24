@@ -125,7 +125,9 @@ namespace ChatManager.Controllers
         [OnlineUsers.UserAccess(true)]
         public ActionResult Update(int id, string message)
         {
-            Message message2 = new Message(id, OnlineUsers.GetSessionUser().Id, CurrentTarget.Id, message);
+            Message message2 = DB.Messages.Get(id);
+            message2.Text = message;
+            //Message message2 = new Message(id, OnlineUsers.GetSessionUser().Id, CurrentTarget.Id, message);
 
             DB.Messages.Update(message2);
             return PartialView();
