@@ -60,7 +60,7 @@ namespace ChatManager.Models
         {
             if (FriendshipsView.DoesFriendshipExist(senderUser, receiverUser))
             {
-                FriendshipsView declinedFriendShip = new FriendshipsView(senderUser.Id,receiverUser.Id);
+                FriendshipsView declinedFriendShip = FriendshipsView.GetMutualFriendship(senderUser, receiverUser);
                 declinedFriendShip.Decline = true;
                 Update(declinedFriendShip);
             }
